@@ -8,15 +8,13 @@ llm-router/
 ├── rotation/     # Ротация аккаунтов (OmniRoute)
 ├── budget/       # Управление бюджетом (Aegis)
 └── config/       # Рабочий MVP-конфиг (проверенные бесплатные алиасы, Docker)
-```
-
-## Что скопировано
+```## Что скопировано
 
 - **auto-combo**: `routingStrategies.ts` (19 стратегий, ACCOUNT_FALLBACK_STRATEGY_VALUES),
   `combo.ts` (схема комбо), `freeModels.ts` (бесплатные модели).
 - **rotation**: `apiKeyPolicy.ts` (политика ключей), `peerRouting.ts` (устойчивость пиринговой маршрутизации).
 - **budget**: `engine.ts` (бюджет как контракт из Aegis), `0009-post-mvp-core-loc-budget.md` (ADR).
-- **config**: `free-router.json` (проверенные вживую бесплатные алиасы), `docker-agent.md` (подключение Docker для код-агента).
+- **config**: `free-router.json` (проверенные вживую бесплатные алиасы), `docker-agent.md` (подключение Docker для код-агента), `provider-auth.md` (автоподключение бесплатных провайдеров через OAuth), `agent.config.toml` + `start-code-agent.sh` (запуск OpenHands из коробки).
 
 ## Интеграция с TT3Dato
 
