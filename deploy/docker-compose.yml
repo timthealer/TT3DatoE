@@ -1,0 +1,121 @@
+# TT3Dato — одно приложение на сервере: роутер + код-агент + веб-интерфейс.
+#
+#   cp .env.example .env   # заполнить секреты
+#   ./deploy.sh            # или docker compose up -d
+#
+# Сервисы:
+#   router  — OmniRoute (бесплатный LLM-роутер, OAuth-автоподключение провайдеров)
+#   agent   — OpenHands headless (код-агент, работает через Docker-песочницу)
+#   ui      — веб-интерфейс (заглушка; финальная оболочка — kurvabobros)
+
+name: tt3dato
+
+services:
+  # ── Роутер (OmniRoute) ──────────────────────────────────────────────
+  router:
+    image: diegosouzapw/omniroute:latest
+    container_name: tt3dato-router
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - DATA_DIR=/app/data
+      - PORT=${DASHBOARD_PORT:-20128}
+      - DASHBOARD_PORT=${DASHBOARD_PORT:-20128}
+      - API_PORT=${API_PORT:-20129}
+      - API_HOST=0.0.0.0
+      - LIVE_WS_PORT=${LIVE_WS_PORT:-20132}
+      - LIVE_WS_HOST=0.0.0.0
+      - BASE_URL=${PUBLIC_BASE_URL:-http://localhost:20128}
+      - NEXT_PUBLIC_BASE_URL=${PUBLIC_BASE_URL:-http://localhost:20128}
+      - JWT_SECRET=${JWT_SECRET:?задайте JWT_SECRET в .env}
+      - API_KEY_SECRET=${API_KEY_SECRET:?задайте API_KEY_SECRET в .env}
+      - STORAGE_ENCRYPTION_KEY=${STORAGE_ENCRYPTION_KEY:?задайте STORAGE_ENCRYPTION_KEY в .env}
+      - INITIAL_PASSWORD=${INITIAL_PASSWORD:-CHANGEME}
+      - REQUIRE_API_KEY=${REQUIRE_API_KEY:-false}
+      - CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS:-http://localhost:3000}
+      - REDIS_URL=redis://redis:6379
+      - NODE_OPTIONS=--max-old-space-size=2048
+    ports:
+      - "${DASHBOARD_PORT:-20128}:${DASHBOARD_PORT:-20128}"
+      - "${API_PORT:-20129}:${API_PORT:-20129}"
+      - "${LIVE_WS_PORT:-20132}:${LIVE_WS_PORT:-20132}"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.mjs"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks:
+      - tt3dato
+
+  # ── Redis (бэкенд rate-limiter роутера) ─────────────────────────────
+  redis:
+    image: docker.io/library/redis:8.6.5-alpine
+    container_name: tt3dato-redis
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - tt3dato
+
+  # ── Код-агент (OpenHands headless) ─────────────────────────────────
+  # Выполняет команды в Docker-песочнице: для этого прокидываем docker.sock.
+  agent:
+    image: ghcr.io/all-hands-ai/openhands:0.8
+    container_name: tt3dato-agent
+    restart: unless-stopped
+    environment:
+      - LLM_MODEL=${AGENT_MODEL:-oc/deepseek-v4-flash-free}
+      - LLM_API_KEY=${ROUTER_API_KEY:-any-nonempty-value}
+      - LLM_BASE_URL=http://router:20128/v1
+      - LLM_CUSTOM_LLM_PROVIDER=openai
+      - LLM_TEMPERATURE=0.0
+      - LLM_NUM_RETRIES=3
+      - LLM_DROP_PARAMS=true
+      - LLM_MAX_OUTPUT_TOKENS=4000
+      - WORKSPACE_BASE=/workspace
+      - SANDBOX_TIMEOUT=120
+      - SANDBOX_ENABLE_AUTO_LINT=false
+      - MAX_ITERATIONS=${AGENT_MAX_ITERATIONS:-50}
+      - RUNTIME=eventstream
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./workspace:/workspace
+    depends_on:
+      router:
+        condition: service_healthy
+    networks:
+      - tt3dato
+
+  # ── Веб-интерфейс (заглушка → финальная оболочка kurvabobros) ─────
+  ui:
+    image: nginx:alpine
+    container_name: tt3dato-ui
+    restart: unless-stopped
+    ports:
+      - "${UI_PORT:-3000}:80"
+    volumes:
+      - ./ui:/usr/share/nginx/html:ro
+    depends_on:
+      - router
+    networks:
+      - tt3dato
+
+volumes:
+  redis-data:
+    name: tt3dato-redis-data
+
+networks:
+  tt3dato:
+    name: tt3dato
