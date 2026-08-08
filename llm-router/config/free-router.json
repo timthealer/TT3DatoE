@@ -1,0 +1,57 @@
+{
+  "$schema": "./router-config.schema.json",
+  "version": "1.0.0",
+  "router": {
+    "baseUrl": "http://localhost:20128",
+    "publicBaseUrl": "https://20128-4e48658a918603a1.monkeycode-ai.live",
+    "provider": "omniroute",
+    "apiStyle": "openai"
+  },
+  "verified": {
+    "date": "2026-08-08",
+    "method": "live /v1/chat/completions test"
+  },
+  "models": {
+    "chat_streaming": ["auto/cheap", "auto/coding:free"],
+    "agent_nonstreaming": ["oc/deepseek-v4-flash-free"]
+  },
+  "aliases": {
+    "auto/cheap": {
+      "description": "Бесплатный тир, работает в streaming (сейчас ведёт на big-pickle)",
+      "streamingOnly": true,
+      "status": "verified"
+    },
+    "auto/coding:free": {
+      "description": "Бесплатный тир для кодинга, работает в streaming",
+      "streamingOnly": true,
+      "status": "verified"
+    },
+    "oc/deepseek-v4-flash-free": {
+      "description": "Бесплатная модель напрямую. Единственная проверенная в non-streaming — подходит для код-агентов (OpenHands/OpenAI SDK). Reasoning-модель: content приходит только если max_tokens хватает на reasoning + ответ (>=200)",
+      "streamingOnly": false,
+      "status": "verified",
+      "minMaxTokens": 200
+    }
+  },
+  "broken": {
+    "auto/best-free": {
+      "error": "Maximum combo retry limit reached",
+      "reason": "все кандидаты исчерпаны (pool 55, exhausted: auggie, chipotle)",
+      "workaround": "использовать auto/cheap или auto/coding:free вместо него"
+    }
+  },
+  "fallback": {
+    "strategy": "priority",
+    "chain": ["auto/cheap", "auto/coding:free", "oc/deepseek-v4-flash-free"]
+  },
+  "docker": {
+    "requiredFor": "code-agent (OpenHands) sandbox",
+    "routerNeedsDocker": false,
+    "connect": {
+      "envVar": "DOCKER_HOST",
+      "localSocket": "unix:///var/run/docker.sock",
+      "remote": "tcp://<host>:2375",
+      "documentation": "./docker-agent.md"
+    }
+  }
+}
