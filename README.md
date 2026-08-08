@@ -149,3 +149,30 @@ ROUTER_BASE_URL=http://server:20128 ROUTER_MODEL=oc/deepseek-v4-flash-free \
 - **Ошибка установки openhands-ai** — сначала поставьте `e2b==0.17.1`, затем `openhands-ai`.
 
 Подробности: `llm-router/config/docker-agent.md`, `llm-router/config/free-router.json`, `llm-router/config/provider-auth.md`.
+
+---
+
+## Развёртывание одним приложением (Фаза 1)
+
+Всё поднимается **на одном сервере одним docker-compose**: роутер + код-агент + веб-интерфейс. Телефон — только клиент.
+
+```bash
+cd deploy
+cp .env.example .env      # заполнить секреты (JWT_SECRET, API_KEY_SECRET, STORAGE_ENCRYPTION_KEY)
+./deploy.sh               # поднять всё и проверить связность
+./deploy.sh status        # статус и повторная проверка
+./deploy.sh down          # остановить
+```
+
+Сервисы (`deploy/docker-compose.yml`):
+
+| Сервис | Образ | Порт | Назначение |
+|---|---|---|---|
+| `router` | `diegosouzapw/omniroute:latest` | 20128 | LLM-роутер (бесплатные алиасы, OAuth-автоподключение) |
+| `redis` | `redis:8.6.5-alpine` | — | rate-limiter роутера |
+| `agent` | `ghcr.io/all-hands-ai/openhands:0.8` | — | код-агент (Docker-песочница, прокинут docker.sock) |
+| `ui` | `nginx:alpine` | 3000 | веб-интерфейс (заглушка → kurvabobros) |
+
+`deploy.sh` сам проверяет: ответ роутера `/v1/models`, работу бесплатной non-streaming модели, живой ли контейнер агента и веб-интерфейс.
+
+> Требования к VPS: Linux, Docker + compose plugin, от 4 GB RAM, от 10 GB диска.
