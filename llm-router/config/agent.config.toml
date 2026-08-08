@@ -1,0 +1,28 @@
+# OpenHands headless config — подключение к нашему бесплатному роутеру (OmniRoute)
+# Скопировать в открытый проект как config.toml или экспортировать как env-переменные.
+# Подробности подключения Docker: llm-router/config/docker-agent.md
+
+[core]
+workspace_base = "./workspace"
+max_iterations = 50
+run_as_openhands = false
+
+[llm]
+model = "oc/deepseek-v4-flash-free"
+api_key = "any-nonempty-value"
+base_url = "http://localhost:20128/v1"
+temperature = 0.0
+num_retries = 3
+retry_min_wait = 5
+retry_max_wait = 60
+drop_params = true
+max_output_tokens = 4000
+custom_llm_provider = "openai"
+
+[sandbox]
+base_container_image = "nikolaik/python-nodejs:python3.11-nodejs22"
+timeout = 120
+enable_auto_lint = false
+
+[agent]
+codeact_enable_browsing = false

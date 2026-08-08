@@ -68,13 +68,26 @@ docker info   # должно ответить удалённому демону
 
 ### 3. Запуск код-агента OpenHands (headless, через роутер)
 
+Готовый скрипт — `start-code-agent.sh` (проверяет Docker и роутер, выставляет все `LLM_*`/`SANDBOX_*` env):
+
+```bash
+./start-code-agent.sh "найди баг в src/index.ts и исправь"
+./start-code-agent.sh -f /path/to/task.txt
+```
+
+Вручную (без скрипта):
+
 ```bash
 export LLM_MODEL=oc/deepseek-v4-flash-free
 export LLM_API_KEY=any-nonempty-value
 export LLM_BASE_URL=http://localhost:20128/v1
+export LLM_CUSTOM_LLM_PROVIDER=openai
+export WORKSPACE_BASE=$PWD/workspace
 export DOCKER_HOST=unix:///var/run/docker.sock
-openhands
+openhands --task "найди баг в src/index.ts и исправь"
 ```
+
+Конфиг эквивалентен `agent.config.toml` в этой папке. Проверено: OpenHands корректно подхватывает `LLM_*`/`WORKSPACE_*`/`SANDBOX_*` env-переменные (см. `load_from_env` в `openhands/core/config/utils.py`).
 
 ## Требования к машине с Docker
 
