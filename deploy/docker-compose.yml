@@ -5,8 +5,8 @@
 #
 # Сервисы:
 #   router  — OmniRoute (бесплатный LLM-роутер, OAuth-автоподключение провайдеров)
-#   agent   — OpenHands headless (код-агент, работает через Docker-песочницу)
-#   ui      — веб-интерфейс (заглушка; финальная оболочка — kurvabobros)
+#   agent   — Coddy agent (код-агент, ReAct + MCP, встроенный веб-UI на :12345)
+#   ui      — веб-интерфейс (nginx-обёртка, при желании) — опционально
 
 name: tt3dato
 
@@ -69,36 +69,31 @@ services:
     networks:
       - tt3dato
 
-  # ── Код-агент (OpenHands headless) ─────────────────────────────────
-  # Выполняет команды в Docker-песочнице: для этого прокидываем docker.sock.
+  # ── Код-агент (Coddy) ────────────────────────────────────────────────
+  # ReAct-агент в одном Go-бинарнике: файлы, shell, MCP, встроенный веб-UI.
+  # Не требует Docker-песочницы (в отличие от OpenHands). Работает в workspace.
   agent:
-    image: ghcr.io/all-hands-ai/openhands:0.8
+    image: ghcr.io/coddy-project/coddy-agent:latest
     container_name: tt3dato-agent
     restart: unless-stopped
     environment:
-      - LLM_MODEL=${AGENT_MODEL:-oc/deepseek-v4-flash-free}
-      - LLM_API_KEY=${ROUTER_API_KEY:-any-nonempty-value}
-      - LLM_BASE_URL=http://router:20128/v1
-      - LLM_CUSTOM_LLM_PROVIDER=openai
-      - LLM_TEMPERATURE=0.0
-      - LLM_NUM_RETRIES=3
-      - LLM_DROP_PARAMS=true
-      - LLM_MAX_OUTPUT_TOKENS=4000
-      - WORKSPACE_BASE=/workspace
-      - SANDBOX_TIMEOUT=120
-      - SANDBOX_ENABLE_AUTO_LINT=false
-      - MAX_ITERATIONS=${AGENT_MAX_ITERATIONS:-50}
-      - RUNTIME=eventstream
+      - ROUTER_BASE_URL=http://router:20128/v1
+      - ROUTER_API_KEY=${ROUTER_API_KEY:-}
+      - CODDY_HOME=/data/coddy
+      - CODDY_CWD=/workspace
+    ports:
+      - "${AGENT_PORT:-12345}:12345"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - ./workspace:/workspace
+      - ./agent/coddy-config.example.yaml:/etc/coddy/config.yaml:ro
+      - coddy-data:/data/coddy
     depends_on:
       router:
         condition: service_healthy
     networks:
       - tt3dato
 
-  # ── Веб-интерфейс (заглушка → финальная оболочка kurvabobros) ─────
+  # ── Веб-интерфейс (опционально; Coddy уже несёт свой UI на :12345) ─
   ui:
     image: nginx:alpine
     container_name: tt3dato-ui
@@ -115,6 +110,8 @@ services:
 volumes:
   redis-data:
     name: tt3dato-redis-data
+  coddy-data:
+    name: tt3dato-coddy-data
 
 networks:
   tt3dato:

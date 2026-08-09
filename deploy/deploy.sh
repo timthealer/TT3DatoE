@@ -26,6 +26,7 @@ fi
 DASHBOARD_PORT="${DASHBOARD_PORT:-20128}"
 API_PORT="${API_PORT:-20129}"
 UI_PORT="${UI_PORT:-3000}"
+AGENT_PORT="${AGENT_PORT:-12345}"
 
 action="${1:-up}"
 
@@ -86,12 +87,16 @@ else
   echo "✖ Бесплатная модель не ответила — возможно, исчерпан дневной лимит провайдера"
 fi
 
-# 3. Код-агент в сети compose
-AGENT_UP=$(${COMPOSE} exec -T agent python3 -c "import openhands; print('ok')" 2>/dev/null || true)
-if [ "${AGENT_UP}" = "ok" ]; then
-  echo "✓ Код-агент OpenHands: установлен, контейнер жив"
+# 3. Код-агент (Coddy) в сети compose — встроенный веб-UI и API
+AGENT_HTTP=$(curl -sf -m 5 -o /dev/null -w "%{http_code}" "http://localhost:${AGENT_PORT}/" 2>/dev/null || true)
+if [ "${AGENT_HTTP}" = "200" ]; then
+  echo "✓ Код-агент Coddy: веб-UI жив → http://localhost:${AGENT_PORT}/"
+  AGENT_MODELS=$(curl -sf -m 5 "http://localhost:${AGENT_PORT}/v1/models" 2>/dev/null | head -c 120 || true)
+  if [ -n "${AGENT_MODELS}" ]; then
+    echo "  Модели (через роутер): ${AGENT_MODELS}"
+  fi
 else
-  echo "⚠ Код-агент: контейнер не проверен (может ещё инициализироваться)"
+  echo "⚠ Код-агент: веб-UI не отвечает (код ${AGENT_HTTP:-нет ответа})"
 fi
 
 # 4. Веб-интерфейс

@@ -1,0 +1,21 @@
+providers:
+  - name: router
+    type: openai
+    api_base: "${ROUTER_BASE_URL:-http://localhost:20128/v1}"
+    api_key: "${ROUTER_API_KEY:-}"
+
+models:
+  - model: "router/oc/deepseek-v4-flash-free"
+    max_tokens: 8192
+    temperature: 0.2
+
+agent:
+  model: "router/oc/deepseek-v4-flash-free"
+  max_turns: 35
+  max_tokens_per_turn: 8192
+
+tools:
+  require_permission_for_commands: true
+
+mcp:
+  project_trust: ask

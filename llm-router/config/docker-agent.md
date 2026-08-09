@@ -1,100 +1,80 @@
-# Подключение Docker для код-агента (OpenHands)
+# Код-агент: Coddy (без Docker) — как подключать
+
+Обновлено после внедрения Coddy: **код-агенту больше не нужен Docker**. Раньше
+роль код-агента играл OpenHands, который жёстко требовал Docker-песочницу
+(`docker.from_env()`). Coddy — один Go-бинарник, работает как обычный процесс
+в своём workspace и ходит в роутер по OpenAI-совместимому `/v1`.
 
 ## Короткий ответ: где нужен Docker?
 
 | Компонент | Нужен ли Docker? | Где запускается |
 |---|---|---|
-| **Роутер (OmniRoute)** | **НЕТ** — обычный Node.js-процесс | сервер/VPS или этот dev-контейнер |
-| **Код-агент (OpenHands)** | **ДА** — выполняет команды в Docker-песочнице | ПК, ноутбук или сервер/VPS |
-| **Интерфейс (kurvabobros)** | НЕТ — статический фронтенд | телефон (браузер/WebView) |
+| **Роутер (OmniRoute)** | **НЕТ** — обычный Node.js-процесс | сервер/VPS или dev-контейнер |
+| **Код-агент (Coddy)** | **НЕТ** — обычный процесс (Go-бинарник) | сервер/VPS, ПК — где угодно |
+| **Интерфейс** | НЕТ — встроенный веб-UI Coddy на :12345 | любой браузер (телефон/ПК) |
 
-**Телефону Docker не нужен.** На Android полноценный Docker не ставится (только Termux + root с серьёзными ограничениями), на iOS — вообще никак. Телефон всегда остаётся **только клиентом** — он открывает веб-интерфейс и ходит по API на ваш сервер.
+**Телефону ничего не нужно** — он открывает веб-UI Coddy и общается с агентом через браузер.
 
-Docker ставится **отдельно, на машину, где выполняется код-агент** — это ПК/ноутбук или VPS-сервер с Linux.
+## Установка
+
+```bash
+curl -fsSL https://coddy.dev/install.sh | bash
+coddy -v
+```
+
+Полная сборка включает теги `http ui scheduler memory` (веб-UI, планировщик, память).
+
+## Конфигурация (`~/.coddy/config.yaml`)
+
+```yaml
+providers:
+  - name: router
+    type: openai
+    api_base: "http://localhost:20128/v1"
+    api_key: "${ROUTER_API_KEY:-}"
+
+models:
+  - model: "router/oc/deepseek-v4-flash-free"
+    max_tokens: 8192
+    temperature: 0.2
+
+agent:
+  model: "router/oc/deepseek-v4-flash-free"
+  max_turns: 35
+```
+
+## Запуск
+
+```bash
+coddy http -P 12345
+# веб-UI: http://localhost:12345
+# API:     /v1/models, /v1/chat/completions, /v1/responses (streaming)
+```
+
+## Особенности интеграции с OmniRoute
+
+- **Провайдер**: `type: openai` + `api_base` на роутер. Поле `api_key` можно
+  оставить пустым, если роутер открыт (`REQUIRE_API_KEY=false`).
+- **Модель**: формат `<provider>/<router-model-id>`, т.е. `router/oc/deepseek-v4-flash-free`.
+- **Streaming**: Coddy использует `/v1/responses` (stream=true) — работает.
+- **Non-streaming**: `/v1/chat/completions` (stream=false) — работает.
+- **Известный патч (важно)**: Coddy до 0.9.60 слал `stream_options` даже в
+  non-streaming запросах; провайдеры OmniRoute отвечают
+  `stream_options should be set along with stream = true`. Исправлено патчем:
+  `stream_options` теперь шлётся только при `stream=true`
+  (`internal/llm/openai.go` в `/tmp/opencode/coddy-src/`). Если соберёте бинарник
+  сами — примените тот же патч.
 
 ## Схемы развёртывания
 
-### Схема A: всё на одном сервере (рекомендуется)
 ```
-[Телефон] --HTTPS--> [Сервер/VPS: роутер (без Docker) + OpenHands (Docker) + интерфейс]
-```
-Docker ставится один раз на сервер. Всё автономно, телефон ничем не управляет.
-
-### Схема B: роутер на сервере, код-агент на вашем ПК
-```
-[Телефон] --> [Сервер: роутер, интерфейс]
-                       ^
-[ПК с Docker: OpenHands] --DOCKER_HOST + API--> роутер
-```
-OpenHands на ПК подключается к удалённому роутеру через его OpenAI-совместимый `/v1` endpoint.
-Docker используется локально на ПК — это самый простой вариант, если вы хотите «пощупать» код-агента.
-
-### Схема C: всё на ПК (для разработки)
-Роутер + Docker + OpenHands на одной машине. Телефон опционально подключается через публичный URL.
-
-## Как подключить OpenHands к Docker
-
-OpenHands использует стандартную переменную `DOCKER_HOST` (см. `_init_docker_client()` → `docker.from_env()`).
-
-### 1. Docker на той же машине, что и OpenHands (Схема A/C)
-
-```bash
-# Проверить, что Docker работает
-docker info
-
-# OpenHands сам подхватит сокет по умолчанию — ничего настраивать не нужно
+A. Всё на одном сервере:  [Телефон] --HTTPS--> [VPS: роутер + coddy http :12345]
+B. Роутер на сервере, агент на ПК:  coddy на ПК, api_base=http://server:20128/v1
+C. Всё на ПК:  роутер + coddy локально
 ```
 
-### 2. Docker на отдельной машине, OpenHands на другой (удалённый Docker)
+## Что было раньше (OpenHands — снят с замены)
 
-На машине с Docker (Ubuntu):
-
-```bash
-# Разрешить удалённое подключение (вНИМАНИЕ: открывает 2375 — только для внутренней сети)
-sudo tee /etc/docker/daemon.json > /dev/null <<'EOF'
-{
-  "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"]
-}
-EOF
-sudo systemctl restart docker
-```
-
-На машине с OpenHands (или в этом dev-контейнере):
-
-```bash
-export DOCKER_HOST=tcp://<IP-машины-с-docker>:2375
-docker info   # должно ответить удалённому демону
-```
-
-### 3. Запуск код-агента OpenHands (headless, через роутер)
-
-Готовый скрипт — `start-code-agent.sh` (проверяет Docker и роутер, выставляет все `LLM_*`/`SANDBOX_*` env):
-
-```bash
-./start-code-agent.sh "найди баг в src/index.ts и исправь"
-./start-code-agent.sh -f /path/to/task.txt
-```
-
-Вручную (без скрипта):
-
-```bash
-export LLM_MODEL=oc/deepseek-v4-flash-free
-export LLM_API_KEY=any-nonempty-value
-export LLM_BASE_URL=http://localhost:20128/v1
-export LLM_CUSTOM_LLM_PROVIDER=openai
-export WORKSPACE_BASE=$PWD/workspace
-export DOCKER_HOST=unix:///var/run/docker.sock
-openhands --task "найди баг в src/index.ts и исправь"
-```
-
-Конфиг эквивалентен `agent.config.toml` в этой папке. Проверено: OpenHands корректно подхватывает `LLM_*`/`WORKSPACE_*`/`SANDBOX_*` env-переменные (см. `load_from_env` в `openhands/core/config/utils.py`).
-
-## Требования к машине с Docker
-
-- Linux или macOS (Docker Desktop). Windows — WSL2.
-- OpenHands тянет runtime-образ `nikolaik/python-nodejs` (~1–2 GB на диске) и собирает свой образ при первом запуске (нужно ещё ~2 GB).
-- Рекомендация: от 4 GB RAM, от 10 GB свободного диска.
-
-## Ограничение этой dev-среды
-
-В текущем облачном dev-контейнере Docker не установлен (нет привилегий/systemd), поэтому OpenHands здесь запустить нельзя. Поэтому код-агент реально запускается по Схеме B: OpenHands живёт на вашем ПК с Docker, а роутер уже работает на сервере (порт 20128, публичный URL `https://20128-4e48658a918603a1.monkeycode-ai.live`).
+- OpenHands требует Docker-песочницу: `pip install e2b==0.17.1` + `pip install openhands-ai`.
+- Подключение через `LLM_BASE_URL` + `LLM_CUSTOM_LLM_PROVIDER=openai`; `DOCKER_HOST` для удалённого демона.
+- Оставлен `start-code-agent.sh` и `agent.config.toml` как исторический вариант — больше не рекомендуются.

@@ -1,6 +1,6 @@
 # TT3Dato — автономный AI-агент
 
-MVP автономного AI-агента: свой **бесплатный LLM-роутер** + **код-агент** (OpenHands), работающие без собственных API-ключей. Роутер подключает бесплатные провайдеры автоматически (OAuth), а код-агент выполняет задачи в Docker-песочнице.
+MVP автономного AI-агента: свой **бесплатный LLM-роутер** + **код-агент** (Coddy), работающие без собственных API-ключей. Роутер подключает бесплатные провайдеры автоматически (OAuth), а код-агент выполняет задачи в своём workspace с встроенным веб-интерфейсом.
 
 ```
 TT3Dato/
@@ -82,62 +82,63 @@ curl http://localhost:20128/v1/chat/completions \
 | `auto/coding:free` | работает | нет | нет |
 | `oc/deepseek-v4-flash-free` | работает | работает | **да** |
 
-### Шаг 5. Установить Docker (только для код-агента)
+### Шаг 5. Установить код-агент (Coddy)
 
-Роутеру Docker не нужен. Docker нужен **только** код-агенту (OpenHands) — он выполняет команды в Docker-песочнице.
-
-- Устанавливается **отдельно на ПК или VPS** (Linux/macOS; Windows — WSL2).
-- На телефоне полноценный Docker не ставится — телефон остаётся только клиентом.
-- Требования: от 4 GB RAM, от 10 GB свободного диска.
+Код-агент — **Coddy** (один Go-бинарник: ReAct-цикл, файлы, shell, MCP, встроенный веб-UI). В отличие от OpenHands ему **не нужна Docker-песочница** — он работает как обычный процесс и ходит в роутер по `/v1`.
 
 ```bash
-# Ubuntu/Debian
-curl -fsSL https://get.docker.com | sh
-docker info   # проверить, что демон запущен
+curl -fsSL https://coddy.dev/install.sh | bash
+coddy -v
 ```
 
-### Шаг 6. Установить код-агент (OpenHands)
+### Шаг 6. Настроить подключение к роутеру
+
+Создайте `~/.coddy/config.yaml` (шаблон: `deploy/agent/coddy-config.example.yaml`):
+
+```yaml
+providers:
+  - name: router
+    type: openai
+    api_base: "http://localhost:20128/v1"
+    api_key: "${ROUTER_API_KEY:-}"
+
+models:
+  - model: "router/oc/deepseek-v4-flash-free"
+
+agent:
+  model: "router/oc/deepseek-v4-flash-free"
+  max_turns: 35
+```
+
+### Шаг 7. Запустить код-агента (веб-интерфейс)
 
 ```bash
-pip install e2b==0.17.1     # обход конфликта зависимостей (e2b<0.18 удалён с PyPI)
-pip install openhands-ai
+coddy http -P 12345
 ```
 
-### Шаг 7. Запустить код-агента
+Откройте **http://localhost:12345** — встроенный чат-UI (agent/plan режимы, история, настройки). Этот же интерфейс доступен по публичной ссылке, если порт открыт наружу. Все доработки агента можно делать прямо из браузера.
 
-Используйте готовый скрипт — он проверит Docker и роутер и выставит все переменные:
+Результаты работы агента появляются в рабочей директории (по умолчанию — каталог запуска).
 
-```bash
-cd TT3Dato
-./llm-router/config/start-code-agent.sh "найди баг в src/index.ts и исправь"
-```
+### Шаг 8. Готовый веб-прототип (уже развёрнут)
 
-Или с задачей из файла:
+Рабочий прототип собран: **роутер (OmniRoute) → код-агент (Coddy) → встроенный веб-UI**. Достигнуто:
 
-```bash
-./llm-router/config/start-code-agent.sh -f /path/to/task.txt
-```
-
-Переменные можно переопределить:
-
-```bash
-ROUTER_BASE_URL=http://server:20128 ROUTER_MODEL=oc/deepseek-v4-flash-free \
-  ./llm-router/config/start-code-agent.sh "задача"
-```
-
-Результат работы агента появится в `TT3Dato/workspace/`.
+- Один процесс агента — без Docker-песочницы (Coddy работает в workspace напрямую).
+- Веб-интерфейс с чатом, файлами, MCP, историей — открывается в браузере (agent/plan режимы).
+- Связка проверена: streaming (`/v1/responses`) и non-streaming (`/v1/chat/completions`) оба отвечают через роутер моделью `oc/deepseek-v4-flash-free`.
 
 ---
 
 ## Типовые схемы развёртывания
 
-| Схема | Где роутер | Где Docker (код-агент) | Когда нужна |
+| Схема | Где роутер | Где агент (Coddy) | Когда нужна |
 |---|---|---|---|
 | A. Всё на одном сервере | VPS | VPS | автономный круглосуточный агент |
 | B. Роутер на сервере, агент на ПК | VPS | ваш ПК | быстрый старт, «пощупать» |
 | C. Всё на ПК | ваш ПК | ваш ПК | разработка |
 
-Телефон в любой схеме — только клиент (веб-интерфейс).
+Телефон в любой схеме — только клиент (встроенный веб-UI Coddy на :12345).
 
 ---
 
@@ -145,10 +146,10 @@ ROUTER_BASE_URL=http://server:20128 ROUTER_MODEL=oc/deepseek-v4-flash-free \
 
 - **`auto/best-free` не работает** — известный баг комбо («Maximum combo retry limit reached»). Используйте `auto/cheap` или `oc/deepseek-v4-flash-free`.
 - **Пустой ответ от бесплатной reasoning-модели** — увеличьте `max_tokens` до 200+ (reasoning съедает лимит).
-- **OpenHands не стартует** — проверьте, что Docker запущен (`docker info`) и роутер отвечает (`curl localhost:20128/v1/models`).
-- **Ошибка установки openhands-ai** — сначала поставьте `e2b==0.17.1`, затем `openhands-ai`.
+- **Coddy отвечает `stream_options should be set along with stream = true`** — известная несовместимость с OmniRoute: `stream_options` валиден только со `stream=true`, а Coddy слал его и в non-streaming. Исправлено патчем (бинарник из `deploy/agent`/пересборка из `coddy-src`).
+- **Coddy не видит роутер** — проверьте `api_base` в `~/.coddy/config.yaml` и `curl localhost:20128/v1/models`.
 
-Подробности: `llm-router/config/docker-agent.md`, `llm-router/config/free-router.json`, `llm-router/config/provider-auth.md`.
+Подробности: `deploy/agent/coddy-config.example.yaml`, `llm-router/config/free-router.json`, `llm-router/config/provider-auth.md`.
 
 ---
 
@@ -170,9 +171,9 @@ cp .env.example .env      # заполнить секреты (JWT_SECRET, API_K
 |---|---|---|---|
 | `router` | `diegosouzapw/omniroute:latest` | 20128 | LLM-роутер (бесплатные алиасы, OAuth-автоподключение) |
 | `redis` | `redis:8.6.5-alpine` | — | rate-limiter роутера |
-| `agent` | `ghcr.io/all-hands-ai/openhands:0.8` | — | код-агент (Docker-песочница, прокинут docker.sock) |
-| `ui` | `nginx:alpine` | 3000 | веб-интерфейс (заглушка → kurvabobros) |
+| `agent` | `ghcr.io/coddy-project/coddy-agent:latest` | 12345 | код-агент (ReAct+MCP, встроенный веб-UI) |
+| `ui` | `nginx:alpine` | 3000 | веб-интерфейс (опционально) |
 
-`deploy.sh` сам проверяет: ответ роутера `/v1/models`, работу бесплатной non-streaming модели, живой ли контейнер агента и веб-интерфейс.
+`deploy.sh` сам проверяет: ответ роутера `/v1/models`, работу бесплатной non-streaming модели, веб-UI код-агента и веб-интерфейс.
 
-> Требования к VPS: Linux, Docker + compose plugin, от 4 GB RAM, от 10 GB диска.
+> Требования к VPS: Linux, Docker + compose plugin, от 2 GB RAM (Coddy лёгкий, в отличие от OpenHands), от 10 GB диска.

@@ -143,7 +143,8 @@
 
 | Репозиторий | Зачем | Статус |
 |---|---|---|
-| OpenHands | кандидат на роль Builder (код после approved-задачи) | CANDIDATE (нужно исследование) |
+| OpenHands | роль Builder — заменён на Coddy (прототип 2026-08-09) | REJECTED (Docker-зависимость, MEM-0005) |
+| Coddy | код-агент: ReAct + MCP + встроенный веб-UI, без Docker | ADOPTED (MEM-0005) |
 | Jan | минималистичный интерфейс, потенциальная основа UI | CANDIDATE (после MVP) |
 
 ---
