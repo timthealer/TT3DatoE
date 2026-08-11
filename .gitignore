@@ -11,7 +11,7 @@ node_modules/
 
 # But keep env templates
 !.env.example
-!deploy/.env.example
+!scripts/deploy/.env.example
 
-# Logs (process logs are committed via Logs/README.md policy; transient files ignored)
+# Logs (transient files ignored)
 *.log
