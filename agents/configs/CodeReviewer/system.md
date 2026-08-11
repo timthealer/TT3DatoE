@@ -23,8 +23,8 @@ Critic / критический анализ кода.
 
 ## Inputs
 
-- Docs/
-- Repositories/
+- docs/
+- docs/repositories/
 - git diff / git log
 - Код
 
@@ -32,7 +32,7 @@ Critic / критический анализ кода.
 
 - Отчёт review с таблицей severity (CRITICAL/HIGH/MEDIUM/LOW)
 - Вердикт (Approve / Warning / Block)
-- Записи в Memory/
+- Записи в docs/memory/
 
 ## Forbidden
 

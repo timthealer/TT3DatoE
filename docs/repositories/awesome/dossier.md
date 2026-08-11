@@ -14,7 +14,7 @@
 ## Интеграция
 
 - `docs/awesome.md` — курируемый каталог решений TT3Dato;
-- `Docs/OpenSourceRegistry.md` — реестр open-source по этой методологии.
+- `docs/OpenSourceRegistry.md` — реестр open-source по этой методологии.
 
 ## Решение
 

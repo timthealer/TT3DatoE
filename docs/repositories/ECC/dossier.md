@@ -16,17 +16,17 @@
 ## Что взяли
 
 - Цикл plan -> test -> implement -> review -> verify -> remember -> improve (Конституция, раздел 15);
-- 12 навыков (Skills/);
-- 7 агентов (Agents/);
-- 6 пакетов правил (Skills/rules/);
-- Memory Vault (Memory/);
-- Evidence Trail (Logs/, Tests/);
-- Security Checklist (Docs/Audits/);
-- Шаблон Plan-PRD-Pattern (Blueprint/).
+- 12 навыков (agents/skills/);
+- 7 агентов (agents/configs/);
+- 6 пакетов правил (agents/skills/rules/);
+- Memory Vault (docs/memory/);
+- Evidence Trail (политика: `*.log` gitignored, тесты рядом с кодом);
+- Security Checklist (docs/audits/);
+- Шаблон Plan-PRD-Pattern (docs/adr/).
 
 ## Анализ
 
-`Docs/Research/ECC_Analysis.md`
+`docs/research/ECC_Analysis.md`
 
 ## Решение
 

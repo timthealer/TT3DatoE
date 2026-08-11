@@ -25,8 +25,8 @@
 
 ## Inputs
 
-- Docs/
-- Repositories/
+- docs/
+- docs/repositories/
 - Architecture
 - Требования
 

@@ -44,8 +44,8 @@ OAuth-автоподключение бесплатных провайдеров
 - Для код-агента использовать `oc/deepseek-v4-flash-free` (единственная проверенная non-streaming бесплатная модель).
 - Код-агент OpenHands запускается только на машине с Docker (ПК или VPS), не в этой dev-среде и не на телефоне.
 - Maxun для автоподключения провайдеров не обязателен — OAuth встроен в OmniRoute.
-- Артефакты: `llm-router/config/free-router.json`, `docker-agent.md`, `provider-auth.md`, `agent.config.toml`, `start-code-agent.sh`.
+- Артефакты: `packages/llm-router/config/free-router.json`, `docker-agent.md`, `provider-auth.md`, `agent.config.toml`, `start-code-agent.sh`.
 
 ## Продвижение
 
-Факты закреплены как конфигурация и документация в `llm-router/config/` (коммиты cea3770, 618b098, 215baec). Если станет правилом — продвинуть в governed-документ (Конституция раздел 9).
+Факты закреплены как конфигурация и документация в `packages/llm-router/config/` (коммиты cea3770, 618b098, 215baec). Если станет правилом — продвинуть в governed-документ (Конституция раздел 9).

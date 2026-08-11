@@ -1,7 +1,7 @@
 # Integration Proposals
 
 **Подготовлено:** Huckleberry Finn (архитектор TT3Dato), 2026-08-01
-**Основание:** `Docs/Audits/Comparative_Analysis_Four_Repos.md` + 4 исследовательских отчёта
+**Основание:** `docs/audits/Comparative_Analysis_Four_Repos.md` + 4 исследовательских отчёта
 **Статус:** Ожидает решения пользователя (Decision Protocol, Конституция раздел 6)
 
 ---

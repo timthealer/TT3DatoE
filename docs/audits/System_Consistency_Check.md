@@ -3,7 +3,7 @@
 **Проверка:** внутренняя непротиворечивость системы TT3Dato
 **Дата:** 2026-08-01
 **Аудитор:** Huckleberry Finn
-**Метод:** перекрёстная сверка всех файлов: Agent Registry, Agent_Permissions, state.json/config.yaml агентов, каталоги Repositories/External/Workflows/Skills/Blueprint, Docs/*, Memory/README.
+**Метод:** перекрёстная сверка всех файлов: Agent Registry, Agent_Permissions, state.json/config.yaml агентов, каталоги docs/repositories/, apps/, docs/workflows/, agents/skills/, docs/adr/, docs/*, docs/memory/README.
 
 ## Статус исправлений
 
@@ -31,10 +31,10 @@ TT3Dato — конфигурационная база знаний и метод
 
 | Файл | Назначение |
 |---|---|
-| `Docs/TT3Dato_Constitution.md` | Конституция: миссия, принципы, 15 разделов (включая цикл ECC, раздел 15) |
-| `Docs/Agent Registry` | Реестр: 11 записей Core Agents + статусы + кандидаты + Decision History |
-| `Docs/Agent_Permissions` | Права доступа агентов (READ/WRITE/FORBIDDEN) |
-| `Docs/Roadmap.md` | Дорожная карта: MVP / После MVP / Исследование |
+| `docs/TT3Dato_Constitution.md` | Конституция: миссия, принципы, 15 разделов (включая цикл ECC, раздел 15) |
+| `docs/agents/registry.md` | Реестр: 11 записей Core Agents + статусы + кандидаты + Decision History |
+| `docs/agents/permissions.md` | Права доступа агентов (READ/WRITE/FORBIDDEN) |
+| `docs/Roadmap.md` | Дорожная карта: MVP / После MVP / Исследование |
 
 ## 1.2. Агенты (10 директорий, 30 файлов)
 
@@ -55,16 +55,16 @@ TT3Dato — конфигурационная база знаний и метод
 
 ## 1.3. Навыки и правила
 
-- 12 навыков в `Skills/<name>/SKILL.md` (tdd-workflow, deep-research, security-review, context-budget, unified-memory, search-first, cost-aware-llm-pipeline, documentation-lookup, agent-eval, market-research, parallel-execution-optimizer, agent-harness-construction);
-- 6 пакетов правил в `Skills/rules/` (agents, code-review, coding-style, development-workflow, git-workflow, hooks).
+- 12 навыков в `agents/skills/<name>/SKILL.md` (tdd-workflow, deep-research, security-review, context-budget, unified-memory, search-first, cost-aware-llm-pipeline, documentation-lookup, agent-eval, market-research, parallel-execution-optimizer, agent-harness-construction);
+- 6 пакетов правил в `agents/skills/rules/` (agents, code-review, coding-style, development-workflow, git-workflow, hooks).
 
 ## 1.4. Рабочие процессы
 
-`Workflows/`: README + development.md, research.md, review.md (цикл ECC: plan->test->implement->review->verify->remember->improve).
+`docs/workflows/`: README + development.md, research.md, review.md (цикл ECC: plan->test->implement->review->verify->remember->improve).
 
 ## 1.5. Память
 
-`Memory/`: README.md (стандарт `ecc.memory.v1`, статусы unverified/verified) + шаблон записи. Продвижение знаний в governed-документы (Конституция, раздел 9).
+`docs/memory/`: README.md (стандарт `ecc.memory.v1`, статусы unverified/verified) + шаблон записи. Продвижение знаний в governed-документы (Конституция, раздел 9).
 
 ## 1.6. Blueprint (архитектурные решения)
 
@@ -72,23 +72,22 @@ TT3Dato — конфигурационная база знаний и метод
 
 ## 1.7. Библиотека репозиториев
 
-`Repositories/`: README (статусы), stack-mappings.json, inventory.json, досье Ruflo/ECC/OmniRoute/Aegis.
+`docs/repositories/`: README (статусы), stack-mappings.json, inventory.json, досье Ruflo/ECC/OmniRoute/Aegis.
 
 ## 1.8. Интеграции
 
-`External/`: README (политика + формат коннектора), манифесты omniroute-gateway (CANDIDATE) и telegram (CANDIDATE).
+`apps/`: README (политика + формат коннектора), манифесты omniroute-gateway (CANDIDATE) и telegram/telegram-client (CANDIDATE).
 
 ## 1.9. Документация исследований и аудитов
 
-- `Docs/Research/`: Ruflo, ECC, OmniRoute, Aegis (4 отчёта);
-- `Docs/Audits/`: Comparative_Analysis_Four_Repos, Agent_Config_Security_Checklist, Empty_Directories_Fill_Analysis, System_Consistency_Check (этот);
-- `Docs/Proposals/`: Integration_Proposals, ECC_Adoption_Proposal;
-- `Docs/ATTRIBUTIONS.md`: реестр заимствований из ECC/Ruflo/Aegis.
+- `docs/research/`: Ruflo, ECC, OmniRoute, Aegis (4 отчёта);
+- `docs/audits/`: Comparative_Analysis_Four_Repos, Agent_Config_Security_Checklist, Empty_Directories_Fill_Analysis, System_Consistency_Check (этот);
+- `docs/proposals/`: Integration_Proposals, ECC_Adoption_Proposal;
+- `docs/ATTRIBUTIONS.md`: реестр заимствований из ECC/Ruflo/Aegis.
 
 ## 1.10. Инфраструктурные
 
-- `Logs/README.md` — evidence trail (процессные следы);
-- `Tests/README.md` — детерминированные проверки (концепция hooks);
+- Evidence trail — процессные логи gitignored (`*.log`); детерминированные проверки — тесты рядом с кодом.
 - `.gitignore` — Temp/, node_modules, секреты.
 
 ---
@@ -97,13 +96,13 @@ TT3Dato — конфигурационная база знаний и метод
 
 ## Противоречие 1 (критичное). Дублирование роли Critic
 
-- В `Docs/Agent Registry` есть Core Agent **Critic** (Status: PLANNED, Source: «To be selected») — БЕЗ директории `Agents/Critic/`.
+- В `docs/agents/registry.md` есть Core Agent **Critic** (Status: PLANNED, Source: «To be selected») — БЕЗ директории `agents/configs/Critic/`.
 - Агент **CodeReviewer** (директория существует) имеет role «Critic».
 - Два агента претендуют на одну роль; запись Critic «висит» без реализации.
 
 ## Противоречие 2 (критичное). Agent_Permissions не покрывает 7 новых агентов
 
-- `Docs/Agent_Permissions` описывает только Huckleberry Finn, Researcher, Auditor.
+- `docs/agents/permissions.md` описывает только Huckleberry Finn, Researcher, Auditor.
 - 7 новых агентов имеют permissions в `config.yaml`, но отсутствуют в документе прав.
 
 ## Противоречие 3 (среднее). ATTRIBUTIONS: арифметика не сходится
@@ -112,11 +111,11 @@ TT3Dato — конфигурационная база знаний и метод
 
 ## Противоречие 4 (среднее). «Planned Roles» дублирует Core Agents
 
-- В `Docs/Agent Registry` раздел «Planned Roles» повторяет уже зарегистрированных агентов: Researcher, Auditor, CodeReviewer, Planner, CodeExplorer, DocUpdater, ChiefOfStaff, AgentEvaluator, DatabaseReviewer, Repository Analyst, Documentation Manager.
+- В `docs/agents/registry.md` раздел «Planned Roles» повторяет уже зарегистрированных агентов: Researcher, Auditor, CodeReviewer, Planner, CodeExplorer, DocUpdater, ChiefOfStaff, AgentEvaluator, DatabaseReviewer, Repository Analyst, Documentation Manager.
 
 ## Противоречие 5 (среднее). Устаревший плейсхолдер «Missing Roles»
 
-- «(будет заполняться после исследования Ruflo)» — Ruflo давно исследован (Docs/Research/Ruflo_Analysis.md).
+- «(будет заполняться после исследования Ruflo)» — Ruflo давно исследован (docs/research/Ruflo_Analysis.md).
 
 ## Противоречие 6 (среднее). Статусы Researcher/Auditor занижены
 
@@ -125,11 +124,11 @@ TT3Dato — конфигурационная база знаний и метод
 ## Противоречие 7 (среднее). state.json HuckleberryFinn устарел
 
 - `known_agents` содержит только Researcher/Auditor (нет 7 новых агентов);
-- `known_repositories` пуст, хотя `Repositories/` заполнен.
+- `known_repositories` пуст, хотя `docs/repositories/` заполнен.
 
 ## Противоречие 8 (слабое). Workflows ACTIVE, владельцы PLANNED
 
-- `Workflows/README` помечает development/research/review как ACTIVE, но агенты-владельцы (Planner, CodeReviewer, Researcher) — PLANNED.
+- `docs/workflows/README` помечает development/research/review как ACTIVE, но агенты-владельцы (Planner, CodeReviewer, Researcher) — PLANNED.
 
 ## Противоречие 9 (слабое). Разные словари статусов
 

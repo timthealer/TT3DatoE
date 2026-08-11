@@ -41,12 +41,12 @@
 
 ### 6. Remember
 
-- Сохранить findings и вердикт в `Memory/`;
-- Артефакт ревью в `Workflows/reviews/`.
+- Сохранить findings и вердикт в `docs/memory/`;
+- Артефакт ревью в `docs/workflows/reviews/`.
 
 ### 7. Improve
 
-- Обновить правила ревью (`Skills/rules/code-review.md`) по опыту.
+- Обновить правила ревью (`agents/skills/rules/code-review.md`) по опыту.
 
 ## Особенности
 

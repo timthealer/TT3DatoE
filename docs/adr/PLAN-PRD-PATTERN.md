@@ -11,11 +11,10 @@
 Каждый артефакт планирования — простой `.md`-файл:
 
 ```
-Blueprint/
-  prds/       # Product Requirements Documents
-  plans/      # Implementation plans (использует агент Planner)
-Workflows/
-  reviews/    # Артефакты code review (использует CodeReviewer)
+docs/prds/       # Product Requirements Documents
+docs/plans/      # Implementation plans (использует агент Planner)
+docs/workflows/
+  reviews/       # Артефакты code review (использует CodeReviewer)
 ```
 
 Свойства staging-файлов:
@@ -34,7 +33,7 @@ Workflows/
 [План: файлы, паттерны, задачи, валидация]   <- агент Planner
         |
         v
-[Реализация test-first]                       <- Skills/tdd-workflow
+[Реализация test-first]                       <- agents/skills/tdd-workflow
         |
         v
 [Review + Delivery]                           <- CodeReviewer, commit/PR
@@ -46,8 +45,8 @@ Workflows/
 
 | Артефакт | Отвечает на вопрос | Фаза | Файл |
 |---|---|---|---|
-| PRD | «Какая проблема? Для кого? Как понять, что готово?» | Требования | `Blueprint/prds/{name}.prd.md` |
-| План | «Какие файлы, паттерны и задачи удовлетворяют требованию?» | Дизайн + стратегия | `Blueprint/plans/{name}.plan.md` |
+| PRD | «Какая проблема? Для кого? Как понять, что готово?» | Требования | `docs/prds/{name}.prd.md` |
+| План | «Какие файлы, паттерны и задачи удовлетворяют требованию?» | Дизайн + стратегия | `docs/plans/{name}.plan.md` |
 
 Почему не объединять:
 
@@ -79,7 +78,7 @@ PRD — когда:
 
 ## Связь с агентами TT3Dato
 
-- `Agents/Planner` — производит `Blueprint/plans/*.plan.md`;
-- `Agents/CodeReviewer` — потребляет планы и производит `Workflows/reviews/*`;
-- `Skills/tdd-workflow` — реализация test-first;
+- `agents/configs/Planner` — производит `docs/plans/*.plan.md`;
+- `agents/configs/CodeReviewer` — потребляет планы и производит `docs/workflows/reviews/*`;
+- `agents/skills/tdd-workflow` — реализация test-first;
 - Цикл соответствует Конституции, раздел 15 (plan -> test -> implement -> review -> verify -> remember -> improve).

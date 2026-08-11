@@ -33,23 +33,23 @@
 
 ### 6. Remember
 
-- Сохранить исследование в `Docs/Research/{Topic}_Analysis.md`;
-- Запись в `Repositories/<RepoName>/dossier.md` при необходимости;
-- Обновить память в `Memory/`.
+- Сохранить исследование в `docs/research/{Topic}_Analysis.md`;
+- Запись в `docs/repositories/<RepoName>/dossier.md` при необходимости;
+- Обновить память в `docs/memory/`.
 
 ### 7. Improve
 
 - Обновить skill `deep-research` по опыту;
-- Пополнить каталог `Repositories/stack-mappings.json`.
+- Пополнить каталог `docs/repositories/stack-mappings.json`.
 
 ## Выход
 
-- Отчёт `Docs/Research/*.md` со структурой: метаданные, ключевые возможности, метрики, релевантность, оценка достоверности, источники.
+- Отчёт `docs/research/*.md` со структурой: метаданные, ключевые возможности, метрики, релевантность, оценка достоверности, источники.
 
 ## Связь с агентами
 
 | Шаг | Агент | Выход |
 |---|---|---|
-| сбор данных | Researcher | `Docs/Research/*.md` |
+| сбор данных | Researcher | `docs/research/*.md` |
 | досье (для компаний) | Auditor | досье сущности |
 | проверка источников | Auditor/Researcher | провенанс утверждений |

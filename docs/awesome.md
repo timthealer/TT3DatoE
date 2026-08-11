@@ -19,17 +19,17 @@
 
 ## Ядро системы
 
-- [Aegis](https://github.com/DukeDeSouth/aegis) — MONITORING. Trust-домены, верифицируемая память, карантин ввода, бюджет-контракты. `core/trust-domains/`, `core/memory/`.
-- [Ruflo](https://github.com/ruvnet/ruflo) — ACTIVE. Федерация агентов, рои, SONA-память, MCP. `core/swarm/`, `core/federation/`.
+- [Aegis](https://github.com/DukeDeSouth/aegis) — MONITORING. Trust-домены, верифицируемая память, карантин ввода, бюджет-контракты. `packages/core/trust-domains/`, `packages/core/memory/`.
+- [Ruflo](https://github.com/ruvnet/ruflo) — ACTIVE. Федерация агентов, рои, SONA-память, MCP. `packages/core/swarm/`, `packages/core/federation/`.
 
 ## Маршрутизация LLM
 
-- [OmniRoute](https://github.com/diegosouzapw/OmniRoute) — CANDIDATE. ~290 провайдеров, 19 стратегий маршрутизации, комбо, ротация аккаунтов, budget-cap. `llm-router/`.
+- [OmniRoute](https://github.com/diegosouzapw/OmniRoute) — CANDIDATE. ~290 провайдеров, 19 стратегий маршрутизации, комбо, ротация аккаунтов, budget-cap. `packages/llm-router/`.
 
 ## Агенты и инструменты
 
-- [Atomic Agent](https://github.com/Doriandarko/atomic-agent) — CANDIDATE. Local-first, ARIA-браузер, tracing (append-only). `tools/browser/`, `traces/`.
-- [ECC](https://github.com/affaan-m/ECC) — ACTIVE. Цикл, навыки, агенты, memory vault. `agents/`, `Skills/`.
+- [Atomic Agent](https://github.com/Doriandarko/atomic-agent) — CANDIDATE. Local-first, ARIA-браузер, tracing (append-only). `packages/tools/browser/`, `packages/traces/`.
+- [ECC](https://github.com/affaan-m/ECC) — ACTIVE. Цикл, навыки, агенты, memory vault. `agents/`, `agents/skills/`.
 
 ## Документация
 
@@ -37,7 +37,7 @@
 
 ## Методология пополнения
 
-1. Кандидат попадает в `Docs/OpenSourceRegistry.md` после сканирования.
-2. Досье создаётся в `Repositories/<Repo>/dossier.md`.
+1. Кандидат попадает в `docs/OpenSourceRegistry.md` после сканирования.
+2. Досье создаётся в `docs/repositories/<Repo>/dossier.md`.
 3. Проверка через агентов (Researcher/Auditor).
 4. Решение о статусе — только после проверки.

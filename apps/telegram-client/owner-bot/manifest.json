@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "status": "CANDIDATE",
   "priority": "active",
-  "description": "Канал связи владельца с HuckleberryFinn через Telegram. Бот = тупой приёмник: пишет сообщения в Telegram/inbox/ репозитория TT3Dato, без LLM. Транспорт webhook (Vercel serverless), безопасность по образцу Aegis (токен из env, доступ только владельца).",
+  "description": "Канал связи владельца с HuckleberryFinn через Telegram. Бот = тупой приёмник: пишет сообщения в apps/telegram-client/inbox/ репозитория TT3Dato, без LLM. Транспорт webhook (Vercel serverless), безопасность по образцу Aegis (токен из env, доступ только владельца).",
   "source": "https://github.com/DukeDeSouth/aegis",
   "license": "MIT",
   "entrypoints": ["webhook"],
@@ -13,8 +13,8 @@
   "no_llm": true,
   "funnel": {
     "target_repo": "timthealer/TT3Dato",
-    "inbox_path": "Telegram/inbox/YYYY-MM-DD.md",
-    "processed_to": "Memory/unverified/ (политика ecc.memory.v1)"
+    "inbox_path": "apps/telegram-client/inbox/YYYY-MM-DD.md",
+    "processed_to": "docs/memory/unverified/ (политика ecc.memory.v1)"
   },
   "owner_only": true,
   "owner": {
@@ -38,5 +38,5 @@
     "display_name": "HuckleberryFinnBot",
     "id": 8843580192
   },
-  "references": ["External/README.md", "External/telegram/connector.example.json", "Telegram/README.md"]
+  "references": ["apps/README.md", "apps/telegram-client/owner-bot/connector.example.json", "apps/telegram-client/README.md"]
 }

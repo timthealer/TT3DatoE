@@ -93,7 +93,7 @@
 | Лицензия | MIT |
 | Активность | 2 stars, ~8 коммитов, создан 2026-07-06 |
 | Зрелость | ранний MVP |
-| Совместимость | код нестабилен; берём концепции (см. Docs/Security_Policy.md) |
+| Совместимость | код нестабилен; берём концепции (см. docs/Security_Policy.md) |
 | Статус | **MONITORING** (концепции приняты, код — нет) |
 
 ## sindresorhus/awesome
@@ -121,7 +121,7 @@
 | Лицензия | MIT |
 | Активность | форк в timthealer (2026-08-08) |
 | Зрелость | зрелый |
-| Совместимость | код перенесён в tools/, traces/, agents/; не является npm-зависимостью |
+| Совместимость | код перенесён в packages/tools/, packages/traces/, agents/; не является npm-зависимостью |
 | Статус | **CANDIDATE** (код перенесён, локальные LLM — после OmniRoute) |
 
 ---
@@ -151,5 +151,5 @@
 
 # История
 
-- 2026-08-02 — создан; первые записи: ruflo, ecc, omniroute, aegis, awesome. Основание: Docs/предложение по развитию.md.
-- 2026-08-08 — добавлен atomic-agent (CANDIDATE); создана параллельная структура core/, llm-router/, tools/, agents/, docs/, traces/ с кодом из форков (см. core/README.md).
+- 2026-08-02 — создан; первые записи: ruflo, ecc, omniroute, aegis, awesome. Основание: docs/proposals/development-proposal.md.
+- 2026-08-08 — добавлен atomic-agent (CANDIDATE); создана параллельная структура packages/core/, packages/llm-router/, packages/tools/, agents/, docs/, packages/traces/ с кодом из форков (см. packages/core/README.md).

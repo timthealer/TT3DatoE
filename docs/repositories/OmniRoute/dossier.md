@@ -22,13 +22,13 @@
 
 ## Интеграция
 
-- Приоритет: После MVP (Docs/Roadmap.md);
-- Манифест: External/omniroute-gateway/manifest.json;
-- ADR: Blueprint/0004-интеграция-OmniRoute.md.
+- Приоритет: После MVP (docs/Roadmap.md);
+- Манифест: apps/omniroute-gateway/manifest.json;
+- ADR: docs/adr/0004-omniroute-integration.md.
 
 ## Анализ
 
-`Docs/Research/OmniRoute_Analysis.md`
+`docs/research/OmniRoute_Analysis.md`
 
 ## Решение
 

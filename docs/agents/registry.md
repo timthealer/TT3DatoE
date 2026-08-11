@@ -190,7 +190,7 @@ Responsibilities:
 
 * декомпозиция задач на планы (plan.md);
 * определение milestones, задач и критериев приёмки;
-* передача плана в цикл implement (см. Skills/tdd-workflow).
+* передача плана в цикл implement (см. agents/skills/tdd-workflow).
 
 Source:
 affaan-m/ECC (agents/planner.md, MIT) — адаптирован
@@ -236,7 +236,7 @@ Documentation Manager — ведение документации.
 
 Responsibilities:
 
-* обновление Docs/ и README;
+* обновление docs/ и README;
 * поддержание актуальности инструкций и стандартов.
 
 Source:
@@ -350,11 +350,11 @@ Role:
 Наблюдение за security-паттернами: trust-домены, карантин ввода, верифицируемая память.
 
 Notes:
-Ранний MVP (DukeDeSouth/aegis, ~8 коммитов). Внедрение не планируется до стабилизации проекта. См. Docs/Research/Aegis_Analysis.md и Docs/Audits/Comparative_Analysis_Four_Repos.md.
+Ранний MVP (DukeDeSouth/aegis, ~8 коммитов). Внедрение не планируется до стабилизации проекта. См. docs/research/Aegis_Analysis.md и docs/audits/Comparative_Analysis_Four_Repos.md.
 
 ---
 
 # Decision History
 
-- 2026-08-01: Решение владельца — полный перенос ECC-методологий (Вариант A). Подключены 7 агентов из ECC (CodeReviewer, Planner, CodeExplorer, DocUpdater, ChiefOfStaff, AgentEvaluator, DatabaseReviewer) со статусом PLANNED, 12 skills, 6 пакетов правил, Memory Vault, Evidence Trail, Security Checklist. Источник: affaan-m/ECC (MIT). См. Docs/Proposals/ECC_Adoption_Proposal.md.
-- 2026-08-02: Решение владельца — приведение к модели «один агент + режимы» (план развития, Docs/предложение по развитию.md): HuckleberryFinn — единственный ACTIVE; Researcher и Auditor переведены в статус MODE (режимы HF); ECC-роли остаются PLANNED как кандидаты-режимы. OpenSourceRegistry создан (Docs/OpenSourceRegistry.md).
+- 2026-08-01: Решение владельца — полный перенос ECC-методологий (Вариант A). Подключены 7 агентов из ECC (CodeReviewer, Planner, CodeExplorer, DocUpdater, ChiefOfStaff, AgentEvaluator, DatabaseReviewer) со статусом PLANNED, 12 skills, 6 пакетов правил, Memory Vault, Evidence Trail, Security Checklist. Источник: affaan-m/ECC (MIT). См. docs/proposals/ECC_Adoption_Proposal.md.
+- 2026-08-02: Решение владельца — приведение к модели «один агент + режимы» (план развития, docs/proposals/development-proposal.md): HuckleberryFinn — единственный ACTIVE; Researcher и Auditor переведены в статус MODE (режимы HF); ECC-роли остаются PLANNED как кандидаты-режимы. OpenSourceRegistry создан (docs/OpenSourceRegistry.md).

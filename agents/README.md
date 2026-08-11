@@ -13,5 +13,5 @@
 
 ## Навыки TT3Dato (существующие)
 
-Реальные навыки агента живут в `Skills/` (tdd-workflow, deep-research, security-review
+Реальные навыки агента живут в `agents/skills/` (tdd-workflow, deep-research, security-review
 и др., из ECC) — сюда перенесены только форматы и мета-навыки из внешних источников.

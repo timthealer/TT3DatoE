@@ -124,4 +124,4 @@
 - `coding-style.md` — единый стиль кода;
 - `git-workflow.md` — стандарты коммитов;
 - `agents.md` — делегирование агентам;
-- `Docs/Audits/Agent_Config_Security_Checklist.md` — аудит конфигов.
+- `docs/audits/Agent_Config_Security_Checklist.md` — аудит конфигов.

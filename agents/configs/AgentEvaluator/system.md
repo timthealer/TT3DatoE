@@ -23,8 +23,8 @@
 
 ## Inputs
 
-- Docs/
-- Repositories/
+- docs/
+- docs/repositories/
 - Результаты агентов
 - Исходные запросы пользователя
 

@@ -236,10 +236,10 @@ export async function searchMarkets(query: string) {
 ```text
 docs/testing/<plan-or-task-name>.tdd.md
 .github/tdd/<plan-or-task-name>.tdd.md
-Docs/tdd/<plan-or-task-name>.tdd.md
+docs/tdd/<plan-or-task-name>.tdd.md
 ```
 
-Если репозиторий уже использует локальные артефакты, каталог `Docs/tdd/` (структура TT3Dato) также приемлем. Включите:
+Если репозиторий уже использует локальные артефакты, каталог `docs/tdd/` (структура TT3Dato) также приемлем. Включите:
 
 1. **Исходный план** - ссылку на файл `*.plan.md`, если он использовался, или укажите, что journeys были выведены в ходе этого запуска TDD.
 2. **User journeys** - список journeys из плана или написанных на шаге 1.

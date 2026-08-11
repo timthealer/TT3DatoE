@@ -5,7 +5,7 @@
 ## Структура
 
 ```
-clients/
+docs/clients/
   registry.json          # реестр клиентов: chat_id, slug, название, статус
   <client-slug>/         # папка одного клиента (slug = client-<chat_id>)
     profile.md           # основная информация о клиенте
@@ -27,7 +27,7 @@ clients/
 
 ## Обработка
 
-- HuckleberryFinn читает `clients/<slug>/interview.md` после завершения опроса.
+- HuckleberryFinn читает `docs/clients/<slug>/interview.md` после завершения опроса.
 - По протоколу строит `dossier.md`, затем `audit.md` (аудит компании + что автоматизируем + предложение).
 - Готовый `audit.md` отправляется клиенту (через клиентского бота или вручную).
 

@@ -11,17 +11,17 @@
 
 | Папка | Предназначение (из структуры TT3Dato) |
 |---|---|
-| `Blueprint/` | Архитектурные чертежи, ADR, планы развития |
-| `Repositories/` | Библиотека системы: каталог и досье open-source репозиториев (Конституция, раздел 10) |
-| `External/` | Внешние интеграции и коннекторы |
-| `Workflows/` | Определения агентных рабочих процессов |
+| `docs/adr/` | Архитектурные чертежи, ADR, планы развития |
+| `docs/repositories/` | Библиотека системы: каталог и досье open-source репозиториев (Конституция, раздел 10) |
+| `apps/` | Внешние интеграции и коннекторы |
+| `docs/workflows/` | Определения агентных рабочих процессов |
 | `Temp/` | Временные данные/эксперименты |
 
 ---
 
 # 2. Схожие директории в ECC, Aegis, Ruflo
 
-## 2.1. Аналог Blueprint/
+## 2.1. Аналог docs/adr/
 
 | Репозиторий | Директория | Содержимое |
 |---|---|---|
@@ -31,7 +31,7 @@
 | ECC | `docs/` | PLAN-PRD-PATTERN.md, SELECTIVE-INSTALL-DESIGN.md, ECC-2.0-REFERENCE-ARCHITECTURE.md |
 | Ruflo | `docs/` | IMPROVEMENT-ROADMAP.md, STATUS.md, benchmarks/ |
 
-## 2.2. Аналог Repositories/
+## 2.2. Аналог docs/repositories/
 
 | Репозиторий | Директория | Содержимое |
 |---|---|---|
@@ -41,7 +41,7 @@
 | Ruflo | `data/` | clone-data.ledger.json, clone-data.proof.json |
 | Aegis | `docs/` | REPO_LAYOUT.md (карта структуры репозитория) |
 
-## 2.3. Аналог External/
+## 2.3. Аналог apps/
 
 | Репозиторий | Директория | Содержимое |
 |---|---|---|
@@ -49,7 +49,7 @@
 | ECC | `integrations/` | aura: `adapter.py` + `README.md` + `THREAT_MODEL.md` + `tests/` |
 | Ruflo | `services/` | cognitum-analytics (сервис аналитики) |
 
-## 2.4. Аналог Workflows/
+## 2.4. Аналог docs/workflows/
 
 | Репозиторий | Директория | Содержимое |
 |---|---|---|
@@ -77,45 +77,45 @@
 
 | Наша папка | Какая цель TT3Dato закрывается | Наиболее подходящий источник |
 |---|---|---|
-| `Blueprint/` | Архитектурные решения и планы | Aegis `docs/adr/` (ADR-формат) + ECC `docs/PLAN-PRD-PATTERN.md` |
-| `Repositories/` | Управление знаниями / библиотека open-source | ECC `config/project-stack-mappings.json` + Ruflo `verification/inventory.json` |
-| `External/` | Интеграция внешних решений (OmniRoute, GitHub App, Telegram) | Aegis `connectors/` (декларативный формат) + ECC `integrations/` |
-| `Workflows/` | Автоматизация процессов и аудита | Ruflo `.claude/commands/workflows/` + ECC `workflows/orch-review.workflow.js` |
+| `docs/adr/` | Архитектурные решения и планы | Aegis `docs/adr/` (ADR-формат) + ECC `docs/adr/PLAN-PRD-PATTERN.md` |
+| `docs/repositories/` | Управление знаниями / библиотека open-source | ECC `config/project-stack-mappings.json` + Ruflo `verification/inventory.json` |
+| `apps/` | Интеграция внешних решений (OmniRoute, GitHub App, Telegram) | Aegis `connectors/` (декларативный формат) + ECC `integrations/` |
+| `docs/workflows/` | Автоматизация процессов и аудита | Ruflo `.claude/commands/workflows/` + ECC `workflows/orch-review.workflow.js` |
 | `Temp/` | Временные данные экспериментов | Не заполнять; добавить в `.gitignore` |
 
 ---
 
 # 4. Предложения, чем заполнить папки
 
-## Blueprint/ — ADR + шаблоны планов
+## docs/adr/ — ADR + шаблоны планов
 
 1. Ввести формат ADR (из Aegis `docs/adr/`) и создать первые записи:
-   - `0001-четыре-домена-доверия.md` (trust-домены, кандидат Aegis);
-   - `0002-верифицируемая-память.md`;
-   - `0003-цикл-ECC.md` (уже в Конституции, раздел 15);
-   - `0004-интеграция-OmniRoute.md` (после MVP).
+   - `0001-four-trust-domains-candidate.md` (trust-домены, кандидат Aegis);
+   - `0002-verifiable-memory-candidate.md`;
+   - `0003-ecc-cycle.md` (уже в Конституции, раздел 15);
+   - `0004-omniroute-integration.md` (после MVP).
 2. Скопировать и адаптировать `PLAN-PRD-PATTERN.md` (ECC) как шаблон планов для агента Planner.
 
-## Repositories/ — каталог библиотеки
+## docs/repositories/ — каталог библиотеки
 
-1. `Repositories/README.md` — описание каталога.
-2. `Repositories/stack-mappings.json` — адаптация `project-stack-mappings.json` (ECC): маппинг «задача TT3Dato -> репозиторий-решение».
-3. `Repositories/inventory.json` — адаптация Ruflo `verification/inventory.json`: инвентарь доступных агентов и навыков TT3Dato.
-4. Папки-досье кандидатов: `Repositories/ECC/`, `Repositories/OmniRoute/`, `Repositories/Aegis/`, `Repositories/Ruflo/` — ссылки на `Docs/Research/*` + статус (ACTIVE/CANDIDATE/MONITORING).
+1. `docs/repositories/README.md` — описание каталога.
+2. `docs/repositories/stack-mappings.json` — адаптация `project-stack-mappings.json` (ECC): маппинг «задача TT3Dato -> репозиторий-решение».
+3. `docs/repositories/inventory.json` — адаптация Ruflo `verification/inventory.json`: инвентарь доступных агентов и навыков TT3Dato.
+4. Папки-досье кандидатов: `docs/repositories/ECC/`, `docs/repositories/OmniRoute/`, `docs/repositories/Aegis/`, `docs/repositories/Ruflo/` — ссылки на `docs/research/*` + статус (ACTIVE/CANDIDATE/MONITORING).
 
-## External/ — коннекторы и интеграции
+## apps/ — коннекторы и интеграции
 
 1. Принять декларативный формат коннектора Aegis (`manifest.json` + `SKILL.md` + `connector.json`).
-2. Создать `External/README.md` с политикой интеграций (по образцу ECC `integrations/aura/README.md` + `THREAT_MODEL.md`).
-3. Первые заготовки-манифесты: `External/omniroute-gateway/manifest.json` (после MVP), `External/telegram/` (кандидат, по Aegis `deploy/broker/telegram`-паттерну).
+2. Создать `apps/README.md` с политикой интеграций (по образцу ECC `integrations/aura/README.md` + `THREAT_MODEL.md`).
+3. Первые заготовки-манифесты: `apps/omniroute-gateway/manifest.json` (после MVP), `apps/telegram-client/owner-bot/` (кандидат, по Aegis `deploy/broker/telegram`-паттерну).
 
-## Workflows/ — агентные процессы
+## docs/workflows/ — агентные процессы
 
 1. Адаптировать цикл из Конституции (раздел 15) в конкретные workflow-файлы:
-   - `Workflows/development.md` (из Ruflo `.claude/commands/workflows/development.md`);
-   - `Workflows/research.md` (из Ruflo `.claude/commands/workflows/research.md`);
-   - `Workflows/review.md` (из ECC `workflows/orch-review.workflow.js` — оркестрация ревью).
-2. `Workflows/README.md` — описание и правила создания workflow.
+   - `docs/workflows/development.md` (из Ruflo `.claude/commands/workflows/development.md`);
+   - `docs/workflows/research.md` (из Ruflo `.claude/commands/workflows/research.md`);
+   - `docs/workflows/review.md` (из ECC `workflows/orch-review.workflow.js` — оркестрация ревью).
+2. `docs/workflows/README.md` — описание и правила создания workflow.
 
 ## Temp/ — не заполнять
 
@@ -133,17 +133,17 @@
 
 ## Вариант A — Заполнить все 5 папок (рекомендуется)
 
-Blueprint (4 ADR + шаблон плана), Repositories (README + 2 JSON-каталога + 4 досье), External (README + политика), Workflows (3 workflow + README), Temp в .gitignore.
+docs/adr (4 ADR + шаблон плана), docs/repositories (README + 2 JSON-каталога + 4 досье), apps (README + политика), docs/workflows (3 workflow + README), Temp в .gitignore.
 
 - Плюсы: структура становится осмысленной; закрыты роли Planner, ChiefOfStaff, DocumentationManager.
 - Минусы: ~15-20 файлов, требуется адаптация каждого.
 
 ## Вариант B — Минимальный (Blueprint + Workflows)
 
-Заполнить только Blueprint (ADR-формат) и Workflows (цикл ECC в файлах). Остальное — в Roadmap.
+Заполнить только docs/adr (ADR-формат) и docs/workflows (цикл ECC в файлах). Остальное — в Roadmap.
 
 - Плюсы: сразу фиксирует решения и процесс; мало файлов.
-- Минусы: Repositories и External остаются пустыми.
+- Минусы: docs/repositories и apps остаются пустыми.
 
 ## Вариант C — Только README-заглушки
 

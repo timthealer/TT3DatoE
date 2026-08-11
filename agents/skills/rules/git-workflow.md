@@ -35,4 +35,4 @@
 
 - `development-workflow.md` — полный цикл разработки перед коммитом.
 - `code-review.md` — ревью перед слиянием.
-- `Docs/TT3Dato_Constitution.md` — разделы 10 (GitHub как библиотека), 15 (цикл).
+- `docs/TT3Dato_Constitution.md` — разделы 10 (GitHub как библиотека), 15 (цикл).

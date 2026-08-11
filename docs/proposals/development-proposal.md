@@ -3,7 +3,7 @@
 **Дата:** 2026-08-02
 **Автор:** HuckleberryFinn
 **Статус:** Предложение для владельца (ожидает решения)
-**Основание:** `Docs/Research/*`, `Docs/Audits/Comparative_Analysis_Four_Repos.md`, анализ `sindresorhus/awesome`, выгрузка GPT-чата владельца
+**Основание:** `docs/research/*`, `docs/audits/Comparative_Analysis_Four_Repos.md`, анализ `sindresorhus/awesome`, выгрузка GPT-чата владельца
 
 ---
 
@@ -11,7 +11,7 @@
 
 1. «Много агентов — плохо» — это не запрет на развитие, а запрет на **самопальное плодотворство агентов**. Саморазвитие TT3Dato сохраняется, но его механизм — **Agent Registry + импорт проверенных open-source компонентов**, а не ручное создание папок-ролей.
 2. Из пяти рассмотренных источников (Ruflo, ECC, OmniRoute, Aegis, awesome) каждый закрывает свою нишу; **ни один не покрывает TT3Dato целиком**.
-3. Главный практический вывод: **создать `Docs/OpenSourceRegistry.md` по методологии awesome-листов** и наполнить его. Это конкретный ответ на «что стянуть из awesome» и фундамент для всего дальнейшего развития.
+3. Главный практический вывод: **создать `docs/OpenSourceRegistry.md` по методологии awesome-листов** и наполнить его. Это конкретный ответ на «что стянуть из awesome» и фундамент для всего дальнейшего развития.
 4. Далее по ценности: **память ecc.memory.v1** и **структура skills** из ECC, **trust-домены / верифицируемая память / карантин ввода** из Aegis, **workflow исследования** из Ruflo, **экономика LLM** из OmniRoute (отложенно).
 
 ---
@@ -72,14 +72,14 @@ Import → Integration → Testing → Activation
 ## 2.2. Ruflo — методология исследований
 
 - Сильное: workflow многоисточникового исследования (deep-research), построение досье (dossier-collect), структура агента.
-- Уже взято: `Agents/Researcher`, `Agents/Auditor` (адаптированы из Ruflo).
+- Уже взято: `agents/configs/Researcher`, `agents/configs/Auditor` (адаптированы из Ruflo).
 - Не берём: тяжёлый MCP-сервер (323 инструмента), бинарный `agentdb.rvf`, полную установку.
 - Дальше: **периодический пересмотр upstream** на предмет новых ролей/prompts.
 
 ## 2.3. ECC — цикл с памятью и skills
 
 - Сильное: цикл `plan → test → implement → review → verify → remember → improve` (уже в Конституции, раздел 15); **Memory Vault `ecc.memory.v1`** (единый inspectable markdown-формат памяти); **281 навык**; **AgentShield** (аудит безопасности конфигов агентов); evidence-трейл; Plan Canvas.
-- Берём: формат памяти `ecc.memory.v1` как стандарт `Memory/`; структуру папки `skills/` и избранные навыки (TDD, security review, deep research); концепцию AgentShield → в `Docs/Audits/Agent_Config_Security_Checklist.md`; требование «evidence trail» к отчётам аудита.
+- Берём: формат памяти `ecc.memory.v1` как стандарт `docs/memory/`; структуру папки `skills/` и избранные навыки (TDD, security review, deep research); концепцию AgentShield → в `docs/audits/Agent_Config_Security_Checklist.md`; требование «evidence trail» к отчётам аудита.
 - Не берём: ECC Pro (платно), JavaScript-код, полную установку.
 
 ## 2.4. OmniRoute — экономика LLM
@@ -92,7 +92,7 @@ Import → Integration → Testing → Activation
 ## 2.5. Aegis — безопасность и верифицируемая память
 
 - Сильное: **trust-домены** (изоляция данных), **верифицируемая память** (unverified → verified), **карантин ввода** (защита от prompt injection), **бюджет как контракт**.
-- Берём (концепции, не код): trust-домены → изоляция данных клиентов в `clients/<slug>/`; верифицируемую память → усиление принципа Конституции «истина хранится внутри TT3Dato»; карантин ввода → обязательная валидация внешних данных/сообщений; бюджет как контракт → контроль расходов на LLM и исследования.
+- Берём (концепции, не код): trust-домены → изоляция данных клиентов в `docs/clients/<slug>/`; верифицируемую память → усиление принципа Конституции «истина хранится внутри TT3Dato»; карантин ввода → обязательная валидация внешних данных/сообщений; бюджет как контракт → контроль расходов на LLM и исследования.
 - Не берём: ранний код (2 звезды, 8 коммитов) — пока нестабилен. Наблюдаем.
 
 ## 2.6. awesome (sindresorhus) — мета-каталог
@@ -111,7 +111,7 @@ Import → Integration → Testing → Activation
 
 ## 3.1. Приоритет 1 — OpenSourceRegistry.md (сейчас)
 
-Создать `Docs/OpenSourceRegistry.md` — «энциклопедию» решений по методологии awesome-листов:
+Создать `docs/OpenSourceRegistry.md` — «энциклопедию» решений по методологии awesome-листов:
 
 - Поля записи: **Repository · Что умеет · Какие роли закрывает · Язык · Лицензия · Последний коммит · Зрелость · Совместимость · Статус (USED / CANDIDATE / MONITORING / REJECTED)**.
 - Начать с уже известного: Ruflo (USED), ECC (USED — методология), OmniRoute (CANDIDATE), Aegis (MONITORING), awesome (USED — методология курирования).
@@ -120,17 +120,17 @@ Import → Integration → Testing → Activation
 
 ## 3.2. Приоритет 2 — память и навыки из ECC
 
-- Закрепить **`ecc.memory.v1`** как стандарт `Memory/` (уже частично есть).
-- Сформировать папку **`Skills/`**: адаптировать избранные навыки ECC (TDD, security review, deep research).
+- Закрепить **`ecc.memory.v1`** как стандарт `docs/memory/` (уже частично есть).
+- Сформировать папку **`agents/skills/`**: адаптировать избранные навыки ECC (TDD, security review, deep research).
 - Применять **evidence-трейл** к отчётам аудита (доказательства по каждому утверждению).
 
 ## 3.3. Приоритет 3 — безопасность из Aegis (концепции)
 
-- Изоляция данных клиентов: `clients/<slug>/` как trust-домен, без перекрёстного доступа.
+- Изоляция данных клиентов: `docs/clients/<slug>/` как trust-домен, без перекрёстного доступа.
 - Карантин ввода: валидация всех внешних сообщений/файлов (клиентский бот, inbox, MCP).
 - Верифицируемая память: unverified → verified уже в политике памяти.
 - Бюджет как контракт: зафиксировать лимиты на исследования/LLM.
-- Внести в `Docs/Audits/Agent_Config_Security_Checklist.md` + Agent Registry.
+- Внести в `docs/audits/Agent_Config_Security_Checklist.md` + Agent Registry.
 
 ## 3.4. Приоритет 4 — Ruflo (поддержка) и OmniRoute (отложенно)
 
@@ -152,10 +152,10 @@ Import → Integration → Testing → Activation
 
 | Шаг | Что | Из чего | Статус |
 |---|---|---|---|
-| 1 | Создать `Docs/OpenSourceRegistry.md` и наполнить первыми записями | awesome-методология | **ВЫПОЛНЕНО** (2026-08-02) |
-| 2 | Привести `Agents/` в соответствие: HuckleberryFinn — единственный ACTIVE, Researcher/Auditor — режимы, ECC-роли — PLANNED/REMOVED | выводы раздела 1 | **ВЫПОЛНЕНО** (2026-08-02) |
-| 3 | Стандарт памяти `ecc.memory.v1` + избранные skills | ECC | **ВЫПОЛНЕНО** (Memory/README.md, Skills/README.md, MEM-0002) |
-| 4 | Trust-домены / карантин ввода / бюджет в правила безопасности | Aegis | **ВЫПОЛНЕНО** (Docs/Security_Policy.md) |
+| 1 | Создать `docs/OpenSourceRegistry.md` и наполнить первыми записями | awesome-методология | **ВЫПОЛНЕНО** (2026-08-02) |
+| 2 | Привести `agents/configs/` в соответствие: HuckleberryFinn — единственный ACTIVE, Researcher/Auditor — режимы, ECC-роли — PLANNED/REMOVED | выводы раздела 1 | **ВЫПОЛНЕНО** (2026-08-02) |
+| 3 | Стандарт памяти `ecc.memory.v1` + избранные skills | ECC | **ВЫПОЛНЕНО** (docs/memory/README.md, agents/skills/README.md, MEM-0002) |
+| 4 | Trust-домены / карантин ввода / бюджет в правила безопасности | Aegis | **ВЫПОЛНЕНО** (docs/Security_Policy.md) |
 | 5 | Прогнать вертикальный срез MVP на реальной задаче | всё | следующий шаг |
 | 6 | OmniRoute как LLM-шлюз | OmniRoute | после MVP |
 

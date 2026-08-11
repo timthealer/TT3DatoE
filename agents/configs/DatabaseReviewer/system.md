@@ -26,8 +26,8 @@
 
 ## Inputs
 
-- Docs/
-- Repositories/
+- docs/
+- docs/repositories/
 - Схема базы данных
 - Запросы
 - Досье компаний
@@ -36,7 +36,7 @@
 
 - Отчёт audit (Query Performance, Schema Design, Security & RLS, Connection, Concurrency)
 - Рекомендации по оптимизации
-- Записи в Memory/
+- Записи в docs/memory/
 
 ## Forbidden
 

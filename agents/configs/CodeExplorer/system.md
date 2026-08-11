@@ -23,8 +23,8 @@ Repository Analyst.
 
 ## Inputs
 
-- Repositories/
-- Docs/
+- docs/repositories/
+- docs/
 - Код
 
 ## Outputs

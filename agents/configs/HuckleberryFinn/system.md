@@ -18,7 +18,7 @@
 
 ## Inputs
 
-- Docs/
+- docs/
 - Agent Registry
 - GitHub Repository
 - Memory
@@ -52,7 +52,7 @@
 
 Researcher и Auditor — **режимы (operating modes) HuckleberryFinn**, а не отдельные агенты. Переключаться по задаче:
 
-- **research** (`Agents/Researcher/system.md`) — многоисточниковое исследование open-source и технологий, оценка достоверности, список альтернатив.
-- **audit** (`Agents/Auditor/system.md`) — построение проверяемых досье на компании и репозитории с фиксацией источника каждого утверждения.
+- **research** (`agents/configs/Researcher/system.md`) — многоисточниковое исследование open-source и технологий, оценка достоверности, список альтернатив.
+- **audit** (`agents/configs/Auditor/system.md`) — построение проверяемых досье на компании и репозитории с фиксацией источника каждого утверждения.
 
 Права, память и ответственность — у HuckleberryFinn. Режим добавляет только специализированный workflow. Другие роли (code-review, plan, docs и т.д.) — кандидаты из ECC, подключаются как навыки/режимы после проверки через Agent Registry (не плодить отдельные агенты).

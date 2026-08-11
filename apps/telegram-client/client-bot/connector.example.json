@@ -20,7 +20,7 @@
     "env_setup": "Vercel -> Settings -> Environment Variables -> добавить CLIENT_BOT_TOKEN; после деплоя webhook бота переключить на https://<project>.vercel.app/api/client"
   },
   "flow": {
-    "first_contact": "клиент пишет название компании и имя -> создаётся clients/<slug>/",
+    "first_contact": "клиент пишет название компании и имя -> создаётся docs/clients/<slug>/",
     "interview": "бот задаёт вопросы по очереди, ответы дописываются в interview.md",
     "complete": "после всех вопросов бот сообщает, что информация собрана",
     "deliverable": "HuckleberryFinn строит dossier.md и audit.md (аудит + предложение)"

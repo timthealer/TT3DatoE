@@ -20,7 +20,7 @@
     "config_file": "connector.json"
   },
   "references": [
-    "Blueprint/0004-интеграция-OmniRoute.md",
-    "Repositories/OmniRoute/dossier.md"
+    "docs/adr/0004-omniroute-integration.md",
+    "docs/repositories/OmniRoute/dossier.md"
   ]
 }

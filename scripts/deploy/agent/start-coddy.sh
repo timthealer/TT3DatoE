@@ -1,5 +1,5 @@
 #!/bin/bash
-# Запуск код-агента Coddy (в контейнере deploy/agent или локально).
+# Запуск код-агента Coddy (в контейнере scripts/deploy/agent или локально).
 # Пример использования:
 #   ROUTER_BASE_URL=http://router:20128/v1 ./start-coddy.sh
 set -euo pipefail
@@ -10,7 +10,7 @@ CONFIG="${CODDY_CONFIG:-/etc/coddy/config.yaml}"
 
 if [ ! -f "$CONFIG" ]; then
   echo "Конфиг не найден: $CONFIG"
-  echo "Создайте его из шаблона: deploy/agent/coddy-config.example.yaml"
+  echo "Создайте его из шаблона: scripts/deploy/agent/coddy-config.example.yaml"
   exit 1
 fi
 

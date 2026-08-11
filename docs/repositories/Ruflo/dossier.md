@@ -16,11 +16,11 @@
 
 - Методология Researcher (deep-researcher.md);
 - Методология Auditor (dossier-investigator.md);
-- Инвентарь возможностей (verification/inventory.json -> Repositories/inventory.json).
+- Инвентарь возможностей (verification/inventory.json -> docs/repositories/inventory.json).
 
 ## Анализ
 
-`Docs/Research/Ruflo_Analysis.md`
+`docs/research/Ruflo_Analysis.md`
 
 ## Решение
 

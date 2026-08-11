@@ -39,18 +39,18 @@ OpenHands снят с роли код-агента. Внедрён **Coddy** (о
 
 Артефакты репозитория (обновлены):
 
-- `deploy/docker-compose.yml` — agent = `ghcr.io/coddy-project/coddy-agent:latest`, порт 12345, volume `coddy-data`, конфиг маунтится в `/etc/coddy/config.yaml`.
-- `deploy/agent/coddy-config.example.yaml` — шаблон конфига.
-- `deploy/agent/start-coddy.sh` — запуск через `ROUTER_BASE_URL`.
-- `deploy/.env.example` — `ROUTER_BASE_URL`, `ROUTER_API_KEY`, `AGENT_PORT` вместо OpenHands-переменных.
-- `deploy/deploy.sh` — проверка веб-UI агента и моделей.
+- `scripts/deploy/docker-compose.yml` — agent = `ghcr.io/coddy-project/coddy-agent:latest`, порт 12345, volume `coddy-data`, конфиг маунтится в `/etc/coddy/config.yaml`.
+- `scripts/deploy/agent/coddy-config.example.yaml` — шаблон конфига.
+- `scripts/deploy/agent/start-coddy.sh` — запуск через `ROUTER_BASE_URL`.
+- `scripts/deploy/.env.example` — `ROUTER_BASE_URL`, `ROUTER_API_KEY`, `AGENT_PORT` вместо OpenHands-переменных.
+- `scripts/deploy/deploy.sh` — проверка веб-UI агента и моделей.
 - `README.md` — шаги 5–8 переписаны под Coddy; таблица сервисов и схем обновлена.
-- `llm-router/config/docker-agent.md` — переписан: Coddy без Docker, OpenHands снят с замены.
+- `packages/llm-router/config/docker-agent.md` — переписан: Coddy без Docker, OpenHands снят с замены.
 
 ## Последствия
 
 - Прототип работает **без VPS/Docker**: роутер + coddy как процессы на любой машине; UI открывается с телефона и ПК по превью-ссылке.
-- Docker теперь нужен только для опционального `deploy/` (compose-схема «одно приложение») — и то это выбор, а не необходимость.
+- Docker теперь нужен только для опционального `scripts/deploy/` (compose-схема «одно приложение») — и то это выбор, а не необходимость.
 - Модель по умолчанию: `oc/deepseek-v4-flash-free` (бесплатная non-streaming, reasoning).
 - Доступ без авторизации: coddy http на 0.0.0.0:12345 без `auth_token` (WARN в логах). Для публичного доступа задать `CODDY_HTTP_TOKEN`.
 - MCP: `mcp.project_trust: ask` — локальные `.coddy/mcp.json` требуют подтверждения (безопасность по умолчанию).

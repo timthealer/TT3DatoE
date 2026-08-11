@@ -2,8 +2,8 @@
 # Запуск код-агента OpenHands (headless) через наш бесплатный роутер.
 #
 # Требования:
-#   1. Роутер запущен (OmniRoute): см. llm-router/config/free-router.json
-#   2. Docker установлен и запущен на этой машине (см. llm-router/config/docker-agent.md)
+#   1. Роутер запущен (OmniRoute): см. packages/llm-router/config/free-router.json
+#   2. Docker установлен и запущен на этой машине (см. packages/llm-router/config/docker-agent.md)
 #   3. openhands-ai установлен:  pip install openhands-ai
 #
 # Использование:
@@ -20,7 +20,7 @@ WORKSPACE_DIR="${WORKSPACE_DIR:-$PWD/workspace}"
 MAX_ITERATIONS="${MAX_ITERATIONS:-50}"
 
 # ─── Проверки ───
-command -v docker >/dev/null 2>&1 || { echo "Docker не установлен. См. llm-router/config/docker-agent.md"; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo "Docker не установлен. См. packages/llm-router/config/docker-agent.md"; exit 1; }
 docker info >/dev/null 2>&1 || { echo "Docker daemon не запущен (или недоступен по DOCKER_HOST)."; exit 1; }
 
 # Проверить, что роутер жив

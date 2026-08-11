@@ -8,17 +8,17 @@
 
 ### 1. Plan (агент Planner)
 
-- Получить или создать PRD (`Blueprint/prds/{name}.prd.md`) по шаблону `Blueprint/PLAN-PRD-PATTERN.md`;
-- Создать план (`Blueprint/plans/{name}.plan.md`): файлы, паттерны, задачи, команды валидации.
+- Получить или создать PRD (`docs/prds/{name}.prd.md`) по шаблону `docs/adr/PLAN-PRD-PATTERN.md`;
+- Создать план (`docs/plans/{name}.plan.md`): файлы, паттерны, задачи, команды валидации.
 
-Артефакт: `Blueprint/plans/*.plan.md`
+Артефакт: `docs/plans/*.plan.md`
 
-### 2. Test (Skills/tdd-workflow)
+### 2. Test (agents/skills/tdd-workflow)
 
 - Написать падающий тест (RED) до реализации;
-- Зафиксировать свидетельство RED в `Tests/`.
+- Зафиксировать свидетельство RED (тест рядом с кодом, `packages/`).
 
-Артефакт: `Tests/` + evidence RED.
+Артефакт: падающий тест (RED) + evidence.
 
 ### 3. Implement
 
@@ -33,24 +33,24 @@
 
 ### 5. Verify
 
-- Прогнать build, lint, typecheck, тесты (детерминированные проверки, `Tests/README.md`);
+- Прогнать build, lint, typecheck, тесты (детерминированные проверки, тесты рядом с кодом);
 - Подтвердить корректность.
 
 ### 6. Remember
 
-- Сохранить решение и опыт в `Memory/` (формат `ecc.memory.v1`, статус unverified);
+- Сохранить решение и опыт в `docs/memory/` (формат `ecc.memory.v1`, статус unverified);
 - Верифицированные знания продвигаются в документы (ADR-0002).
 
 ### 7. Improve
 
 - На основе опыта улучшить workflow/навыки;
-- Обновить инвентарь (`Repositories/inventory.json`).
+- Обновить инвентарь (`docs/repositories/inventory.json`).
 
 ## Связь с агентами
 
 | Шаг | Агент | Выход |
 |---|---|---|
-| plan | Planner | `Blueprint/plans/*.plan.md` |
+| plan | Planner | `docs/plans/*.plan.md` |
 | test/implement | tdd-workflow | код + тесты |
 | review | CodeReviewer | вердикт |
-| remember | Memory Vault | `Memory/*` |
+| remember | Memory Vault | `docs/memory/*` |

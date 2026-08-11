@@ -4,12 +4,11 @@ MVP автономного AI-агента: свой **бесплатный LLM-
 
 ```
 TT3Dato/
-├── llm-router/   # Роутер: конфиг, автоподключение провайдеров, запуск код-агента
-├── core/         # Память, swarm, federation, trust-domains
-├── agents/       # Спецификации и форматы агентов
-├── tools/        # Инструменты (browser, filesystem, shell)
-├── Memory/       # Проверенные факты (память проекта)
-└── docs/         # Документация и обзоры
+├── apps/         # Сервисы (telegram-client, omniroute-gateway)
+├── packages/     # Код: core (память, swarm, federation, trust-domains), tools, llm-router, traces
+├── agents/       # Конфиги агентов (configs/) и скиллы (skills/)
+├── docs/         # База знаний: adr/, memory/, repositories/, research/, workflows/
+└── scripts/      # Развёртывание (deploy/)
 ```
 
 ---
@@ -57,7 +56,7 @@ omniroute oauth start --provider gemini --no-browser
 omniroute oauth start --provider copilot
 ```
 
-Доступно: `gemini`, `antigravity`, `windsurf`, `qwen`, `cursor`, `zed`, `kiro`, `claude-code`, `codex`, `copilot`. Подробности — `llm-router/config/provider-auth.md`.
+Доступно: `gemini`, `antigravity`, `windsurf`, `qwen`, `cursor`, `zed`, `kiro`, `claude-code`, `codex`, `copilot`. Подробности — `packages/llm-router/config/provider-auth.md`.
 
 Проверить подключения:
 
@@ -93,7 +92,7 @@ coddy -v
 
 ### Шаг 6. Настроить подключение к роутеру
 
-Создайте `~/.coddy/config.yaml` (шаблон: `deploy/agent/coddy-config.example.yaml`):
+Создайте `~/.coddy/config.yaml` (шаблон: `scripts/deploy/agent/coddy-config.example.yaml`):
 
 ```yaml
 providers:
@@ -146,10 +145,10 @@ coddy http -P 12345
 
 - **`auto/best-free` не работает** — известный баг комбо («Maximum combo retry limit reached»). Используйте `auto/cheap` или `oc/deepseek-v4-flash-free`.
 - **Пустой ответ от бесплатной reasoning-модели** — увеличьте `max_tokens` до 200+ (reasoning съедает лимит).
-- **Coddy отвечает `stream_options should be set along with stream = true`** — известная несовместимость с OmniRoute: `stream_options` валиден только со `stream=true`, а Coddy слал его и в non-streaming. Исправлено патчем (бинарник из `deploy/agent`/пересборка из `coddy-src`).
+- **Coddy отвечает `stream_options should be set along with stream = true`** — известная несовместимость с OmniRoute: `stream_options` валиден только со `stream=true`, а Coddy слал его и в non-streaming. Исправлено патчем (бинарник из `scripts/deploy/agent`/пересборка из `coddy-src`).
 - **Coddy не видит роутер** — проверьте `api_base` в `~/.coddy/config.yaml` и `curl localhost:20128/v1/models`.
 
-Подробности: `deploy/agent/coddy-config.example.yaml`, `llm-router/config/free-router.json`, `llm-router/config/provider-auth.md`.
+Подробности: `scripts/deploy/agent/coddy-config.example.yaml`, `packages/llm-router/config/free-router.json`, `packages/llm-router/config/provider-auth.md`.
 
 ---
 
@@ -158,14 +157,14 @@ coddy http -P 12345
 Всё поднимается **на одном сервере одним docker-compose**: роутер + код-агент + веб-интерфейс. Телефон — только клиент.
 
 ```bash
-cd deploy
+cd scripts/deploy
 cp .env.example .env      # заполнить секреты (JWT_SECRET, API_KEY_SECRET, STORAGE_ENCRYPTION_KEY)
 ./deploy.sh               # поднять всё и проверить связность
 ./deploy.sh status        # статус и повторная проверка
 ./deploy.sh down          # остановить
 ```
 
-Сервисы (`deploy/docker-compose.yml`):
+Сервисы (`scripts/deploy/docker-compose.yml`):
 
 | Сервис | Образ | Порт | Назначение |
 |---|---|---|---|

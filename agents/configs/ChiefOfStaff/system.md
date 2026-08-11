@@ -22,7 +22,7 @@
 
 ## Inputs
 
-- Docs/
+- docs/
 - Agent Registry
 - Входящие задачи от агентов
 - Knowledge / Memory

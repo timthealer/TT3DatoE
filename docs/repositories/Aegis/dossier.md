@@ -24,13 +24,13 @@
 
 ## Интеграция
 
-- Статус в реестре: MONITORING (Docs/Agent Registry);
+- Статус в реестре: MONITORING (docs/agents/registry.md);
 - Внедрение не планируется до стабилизации проекта;
-- Методология ADR и trust-доменов зафиксирована в Blueprint/ (ADR-0001, ADR-0002).
+- Методология ADR и trust-доменов зафиксирована в docs/adr/ (ADR-0001, ADR-0002).
 
 ## Анализ
 
-`Docs/Research/Aegis_Analysis.md`
+`docs/research/Aegis_Analysis.md`
 
 ## Решение
 

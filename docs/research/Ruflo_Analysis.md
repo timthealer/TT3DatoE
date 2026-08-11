@@ -83,4 +83,4 @@ Ruflo — агентный харнесс (agent meta-harness) с открыты
 
 1. https://github.com/ruvnet/ruflo
 2. https://api.github.com/repos/ruvnet/ruflo (метаданные, commits, contributors)
-3. Адаптация агентов: `Agents/Researcher/system.md`, `Agents/Auditor/system.md`
+3. Адаптация агентов: `agents/configs/Researcher/system.md`, `agents/configs/Auditor/system.md`

@@ -3,7 +3,7 @@
 **Репозитории:** Ruflo, ECC, OmniRoute, Aegis
 **Дата анализа:** 2026-08-01
 **Аудитор:** Auditor (dossier-investigator, адаптация из ruvnet/ruflo)
-**Основание:** Отчёты `Docs/Research/Ruflo_Analysis.md`, `Docs/Research/ECC_Analysis.md`, `Docs/Research/OmniRoute_Analysis.md`, `Docs/Research/Aegis_Analysis.md`
+**Основание:** Отчёты `docs/research/Ruflo_Analysis.md`, `docs/research/ECC_Analysis.md`, `docs/research/OmniRoute_Analysis.md`, `docs/research/Aegis_Analysis.md`
 
 ---
 
@@ -93,7 +93,7 @@
 
 # 6. Источники
 
-1. `Docs/Research/Ruflo_Analysis.md`
-2. `Docs/Research/ECC_Analysis.md`
-3. `Docs/Research/OmniRoute_Analysis.md`
-4. `Docs/Research/Aegis_Analysis.md`
+1. `docs/research/Ruflo_Analysis.md`
+2. `docs/research/ECC_Analysis.md`
+3. `docs/research/OmniRoute_Analysis.md`
+4. `docs/research/Aegis_Analysis.md`

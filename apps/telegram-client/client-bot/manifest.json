@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "status": "CANDIDATE",
   "priority": "active",
-  "description": "Клиентский бот @Audit_TT3dato_bot: сбор информации о компании по схеме вопрос-ответ (12 базовых + до 6 уточняющих), ответы кнопками/текстом/голосом. Пишет в clients/<slug>/interview.md + voice/ в TT3Dato.",
+  "description": "Клиентский бот @Audit_TT3dato_bot: сбор информации о компании по схеме вопрос-ответ (12 базовых + до 6 уточняющих), ответы кнопками/текстом/голосом. Пишет в docs/clients/<slug>/interview.md + voice/ в TT3Dato.",
   "source": "https://github.com/DukeDeSouth/aegis",
   "license": "MIT",
   "entrypoints": ["webhook"],
@@ -19,11 +19,11 @@
     "answer_modes": ["buttons", "custom_text", "voice"]
   },
   "data": {
-    "registry": "clients/registry.json",
-    "interview": "clients/<slug>/interview.md",
-    "voice": "clients/<slug>/voice/",
-    "dossier": "clients/<slug>/dossier.md",
-    "audit": "clients/<slug>/audit.md"
+    "registry": "docs/clients/registry.json",
+    "interview": "docs/clients/<slug>/interview.md",
+    "voice": "docs/clients/<slug>/voice/",
+    "dossier": "docs/clients/<slug>/dossier.md",
+    "audit": "docs/clients/<slug>/audit.md"
   },
   "config_refs": {
     "api_key_env": "CLIENT_BOT_TOKEN",
@@ -35,5 +35,5 @@
     "display_name": "Аудит",
     "id": 8322424292
   },
-  "references": ["External/README.md", "External/telegram-client/connector.example.json", "clients/README.md"]
+  "references": ["apps/README.md", "apps/telegram-client/client-bot/connector.example.json", "docs/clients/README.md"]
 }

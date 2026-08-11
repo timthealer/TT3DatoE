@@ -25,16 +25,16 @@ TT3Dato — база знаний/паттернов с реальным код�
 
 Перенесённые артефакты (все на месте, читаются):
 
-- `tools/github/github.ts` — GitHub REST-доступ: `fetchRepoTree`, `fetchRepoFile`, `verifyGithubToken`, `searchRepoFiles`, `fetchLocalRepoTree/File` (`/__repo`). Лимит просмотра 300 КБ, фильтр бинарных расширений, friendly-ошибки (401/403 → «проверьте токен и Contents: Read», 404 → «репозиторий не найден», 429 → «лимит»). `tools/github/README.md` описывает отличие от `agents/github/SKILL.md` (gh CLI vs REST-чтение).
-- `core/memory/src/repo-context.ts` — автоконтекст из репозитория: `buildRepoContext` + `extractFileNames` + `FILE_RE` (максимум 5 файлов, `MAX_FILE_CHARS = 12000`, сначала локальное дерево `/__repo`, затем GitHub API). Импорт: `../../../tools/github/github.ts`.
-- `llm-router/auto-combo/README.md` — паттерн fallback-каскада из `api.ts`: `detectTask` (coding/reasoning/fast/chat), `buildCandidates` (сортировка по quality, алиас `auto*` → цепочка запасных `auto/best-chat` ↔ `auto/best-coding`), `chatCompletion` (пустой ответ = ошибка → следующий кандидат; AbortError пробрасывается).
+- `packages/tools/github/github.ts` — GitHub REST-доступ: `fetchRepoTree`, `fetchRepoFile`, `verifyGithubToken`, `searchRepoFiles`, `fetchLocalRepoTree/File` (`/__repo`). Лимит просмотра 300 КБ, фильтр бинарных расширений, friendly-ошибки (401/403 → «проверьте токен и Contents: Read», 404 → «репозиторий не найден», 429 → «лимит»). `packages/tools/github/README.md` описывает отличие от `agents/skills/github/SKILL.md` (gh CLI vs REST-чтение).
+- `packages/core/memory/src/repo-context.ts` — автоконтекст из репозитория: `buildRepoContext` + `extractFileNames` + `FILE_RE` (максимум 5 файлов, `MAX_FILE_CHARS = 12000`, сначала локальное дерево `/__repo`, затем GitHub API). Импорт: `../../../tools/github/github.ts`.
+- `packages/llm-router/auto-combo/README.md` — паттерн fallback-каскада из `api.ts`: `detectTask` (coding/reasoning/fast/chat), `buildCandidates` (сортировка по quality, алиас `auto*` → цепочка запасных `auto/best-chat` ↔ `auto/best-coding`), `chatCompletion` (пустой ответ = ошибка → следующий кандидат; AbortError пробрасывается).
 - `docs/files-tab-and-pending-context.md` — файлы-вкладка + отложенный контекст: `savePendingContext` (TTL 10 минут, ключ `tt3datoe.pendingContext.v1`), приём на маунте ChatScreen, разделение источников local/github, обёртка `[Файл из репозитория: <path>]`.
 
-Обновлены ссылки: `llm-router/README.md` — упоминание TT3DatoE заменено на `auto-combo/README.md` (клиентский fallback-каскад). В корневом `README.md` упоминаний TT3datoe нет.
+Обновлены ссылки: `packages/llm-router/README.md` — упоминание TT3DatoE заменено на `auto-combo/README.md` (клиентский fallback-каскад). В корневом `README.md` упоминаний TT3datoe нет.
 
 ## Последствия
 
-- Код-агент может читать дерево/файлы репозитория через `tools/github/github.ts` без `gh` CLI и без скачивания.
+- Код-агент может читать дерево/файлы репозитория через `packages/tools/github/github.ts` без `gh` CLI и без скачивания.
 - Автоконтекст (`buildRepoContext`) встраивает упомянутые в промпте файлы — использовать в код-агенте для экономии токенов (макс. 5 файлов, обрезка 12 КБ).
 - Fallback-каскад из TT3DatoE — клиентский слой поверх роутера: переживает «молчащие» алиасы `auto*` (пустой ответ → следующий кандидат). Не конфликтует с нативным каскадом OmniRoute (комбо).
 - Исходники TT3DatoE остаются в `/tmp/opencode/TT3datoe/TT3DatoE/` (github.ts, api.ts, storage.ts, ChatScreen.tsx, FilesScreen.tsx) до завершения переноса.

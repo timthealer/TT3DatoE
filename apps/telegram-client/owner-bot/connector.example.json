@@ -3,7 +3,7 @@
   "name": "Telegram Channel",
   "version": "0.2.0",
   "status": "CANDIDATE",
-  "description": "Канал связи владельца с HuckleberryFinn: бот пишет сообщения в Telegram/inbox/ репозитория TT3Dato, без LLM. Безопасность по образцу Aegis (токен из env, доступ только владельца). Транспорт — webhook (Vercel serverless), НЕ long polling.",
+  "description": "Канал связи владельца с HuckleberryFinn: бот пишет сообщения в apps/telegram-client/inbox/ репозитория TT3Dato, без LLM. Безопасность по образцу Aegis (токен из env, доступ только владельца). Транспорт — webhook (Vercel serverless), НЕ long polling.",
   "source": "https://github.com/DukeDeSouth/aegis",
   "license": "MIT",
   "env_vars": {
@@ -19,9 +19,9 @@
   },
   "funnel": {
     "target_repo": "timthealer/TT3Dato",
-    "inbox_path": "Telegram/inbox/YYYY-MM-DD.md",
+    "inbox_path": "apps/telegram-client/inbox/YYYY-MM-DD.md",
     "reply": "Принято. Записал в <path>",
-    "processed_to": "Memory/unverified/"
+    "processed_to": "docs/memory/unverified/"
   },
   "deploy": {
     "platform": "vercel",

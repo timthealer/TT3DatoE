@@ -2,7 +2,7 @@
 
 > Источник методологии: https://github.com/diegosouzapw/OmniRoute (MIT). Адаптировано для TT3Dato.
 
-**Статус:** Предложено (после MVP, см. `Docs/Roadmap.md`)
+**Статус:** Предложено (после MVP, см. `docs/Roadmap.md`)
 
 ---
 
@@ -18,7 +18,7 @@ TT3Dato выполняет массовые LLM-операции (аудит к�
 - маршрутизация между бесплатными и платными провайдерами (~1.53B бесплатных токенов/мес);
 - сжатие контекста (RTK + Caveman, экономия до ~89% токенов).
 
-Место в архитектуре: `External/omniroute-gateway/` (внешняя интеграция, не часть ядра).
+Место в архитектуре: `apps/omniroute-gateway/` (внешняя интеграция, не часть ядра).
 
 ## Последствия
 
@@ -27,8 +27,8 @@ TT3Dato выполняет массовые LLM-операции (аудит к�
 
 ## Связанные решения
 
-- `External/omniroute-gateway/manifest.json` — заготовка манифеста.
-- Skill `Skills/cost-aware-llm-pipeline/SKILL.md` — экономия токенов на уровне процесса.
+- `apps/omniroute-gateway/manifest.json` — заготовка манифеста.
+- Skill `agents/skills/cost-aware-llm-pipeline/SKILL.md` — экономия токенов на уровне процесса.
 
 ## Источник
 

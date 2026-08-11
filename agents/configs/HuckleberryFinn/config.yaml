@@ -8,13 +8,11 @@ memory: state.json
 
 workspace: ../../
 
-docs: ../../Docs
+docs: ../../../docs
 
-repositories: ../../Repositories
+repositories: ../../../docs/repositories
 
-skills: ../../Skills
-
-logs: ../../Logs
+skills: ../../../agents/skills
 
 approval_required: true
 
@@ -22,5 +20,5 @@ language: ru
 
 # Researcher и Auditor — режимы работы HuckleberryFinn, а не отдельные агенты
 modes:
-  research: ../../Agents/Researcher/system.md
-  audit: ../../Agents/Auditor/system.md
+  research: ../../../agents/configs/Researcher/system.md
+  audit: ../../../agents/configs/Auditor/system.md

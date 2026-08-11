@@ -23,14 +23,14 @@ Documentation Manager.
 
 ## Inputs
 
-- Repositories/
-- Docs/
+- docs/repositories/
+- docs/
 - README
 - Codemaps
 
 ## Outputs
 
-- Обновлённые Docs/ и README
+- Обновлённые docs/ и README
 - Карты кода (codemaps)
 - Guides
 

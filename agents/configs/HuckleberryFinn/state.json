@@ -2,16 +2,16 @@
   "status": "idle",
   "current_task": null,
   "completed_tasks": [
-    "Исследование Ruflo, ECC, OmniRoute, Aegis (Docs/Research/*)",
-    "Сравнительный аудит четырёх репозиториев (Docs/Audits/Comparative_Analysis_Four_Repos.md)",
+    "Исследование Ruflo, ECC, OmniRoute, Aegis (docs/research/*)",
+    "Сравнительный аудит четырёх репозиториев (docs/audits/Comparative_Analysis_Four_Repos.md)",
     "Полный перенос ECC-методологий (коммит a2a4fe7)",
-    "Заполнение Blueprint, Repositories, External, Workflows (коммит 4d9207d)",
-    "Проверка непротиворечивости системы (Docs/Audits/System_Consistency_Check.md)",
-    "Создание OpenSourceRegistry и приведение Agents/ к модели «один агент + режимы»"
+    "Заполнение docs/adr, docs/repositories, apps, docs/workflows (коммит 4d9207d)",
+    "Проверка непротиворечивости системы (docs/audits/System_Consistency_Check.md)",
+    "Создание OpenSourceRegistry и приведение agents/ к модели «один агент + режимы»"
   ],
   "modes": [
-    { "name": "research", "definition": "Agents/Researcher/system.md", "source": "ruvnet/ruflo", "status": "ACTIVE" },
-    { "name": "audit", "definition": "Agents/Auditor/system.md", "source": "ruvnet/ruflo", "status": "ACTIVE" }
+    { "name": "research", "definition": "agents/configs/Researcher/system.md", "source": "ruvnet/ruflo", "status": "ACTIVE" },
+    { "name": "audit", "definition": "agents/configs/Auditor/system.md", "source": "ruvnet/ruflo", "status": "ACTIVE" }
   ],
   "known_agents": [
     { "name": "HuckleberryFinn", "role": "Architect", "source": "internal", "status": "ACTIVE" }
