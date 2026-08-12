@@ -4,16 +4,49 @@ MVP автономного AI-агента: свой **бесплатный LLM-
 
 ```
 TT3Dato/
-├── apps/         # Сервисы (telegram-client, omniroute-gateway)
-├── packages/     # Код: core (память, swarm, federation, trust-domains), tools, llm-router, traces
+├── apps/         # Сервисы (telegram-client, omniroute-gateway, mobile, desktop)
+├── packages/     # Код: core, tools, llm-router, traces, sync, ui, app-core
 ├── agents/       # Конфиги агентов (configs/) и скиллы (skills/)
+├── clients/      # Внешние клиенты
 ├── docs/         # База знаний: adr/, memory/, repositories/, research/, workflows/
 └── scripts/      # Развёртывание (deploy/)
 ```
 
 ---
 
-## Пошаговая установка и подключение
+## Разработка (монорепозиторий, Фаза 2)
+
+Проект — pnpm-монорепозиторий. Требуется **Node.js 20+** и **pnpm 9+** (включён в проект через `packageManager`):
+
+```bash
+pnpm install        # установка зависимостей (генерирует pnpm-lock.yaml)
+pnpm build          # сборка всех пакетов (tsc)
+pnpm test           # запуск тестов (Vitest)
+pnpm lint           # проверка кода (ESLint)
+pnpm format         # форматирование (Prettier)
+```
+
+Перед коммитом автоматически запускаются **Husky + lint-staged** (Prettier + ESLint по застейдженным файлам).
+
+### Структура пакетов
+
+| Пакет                 | Назначение                                           | Статус                              |
+| --------------------- | ---------------------------------------------------- | ----------------------------------- |
+| `packages/core`       | память, swarm, federation, trust-domains             | существующий код Phase 1 + заглушка |
+| `packages/tools`      | browser, filesystem, github, shell                   | существующий код Phase 1 + заглушка |
+| `packages/llm-router` | auto-combo, budget, config, rotation                 | существующий код Phase 1 + заглушка |
+| `packages/traces`     | трассировка                                          | существующий код Phase 1 + заглушка |
+| `packages/sync`       | git-sync, conflict-resolver, offline-store, p2p-sync | заглушка (Чат 2)                    |
+| `packages/ui`         | UI-компоненты                                        | заглушка (Чат 3)                    |
+| `packages/app-core`   | общая логика приложений                              | заглушка (Чат 3)                    |
+| `apps/mobile`         | мобильное приложение                                 | заглушка (Чат 3)                    |
+| `apps/desktop`        | десктоп-приложение (Tauri)                           | заглушка (Чат 3)                    |
+
+Текущий прогресс и следующие шаги — `docs/HANDOFF.md`, архитектурные решения — `docs/decisions.md`.
+
+---
+
+## Пошаговая установка и подключение (стек агента)
 
 ### Шаг 1. Клонировать репозиторий
 
@@ -75,11 +108,11 @@ curl http://localhost:20128/v1/chat/completions \
 
 Рабочие бесплатные алиасы (проверено вживую):
 
-| Алиас | Streaming | Non-streaming | Для код-агента |
-|---|---|---|---|
-| `auto/cheap` | работает | нет | нет |
-| `auto/coding:free` | работает | нет | нет |
-| `oc/deepseek-v4-flash-free` | работает | работает | **да** |
+| Алиас                       | Streaming | Non-streaming | Для код-агента |
+| --------------------------- | --------- | ------------- | -------------- |
+| `auto/cheap`                | работает  | нет           | нет            |
+| `auto/coding:free`          | работает  | нет           | нет            |
+| `oc/deepseek-v4-flash-free` | работает  | работает      | **да**         |
 
 ### Шаг 5. Установить код-агент (Coddy)
 
@@ -98,14 +131,14 @@ coddy -v
 providers:
   - name: router
     type: openai
-    api_base: "http://localhost:20128/v1"
-    api_key: "${ROUTER_API_KEY:-}"
+    api_base: 'http://localhost:20128/v1'
+    api_key: '${ROUTER_API_KEY:-}'
 
 models:
-  - model: "router/oc/deepseek-v4-flash-free"
+  - model: 'router/oc/deepseek-v4-flash-free'
 
 agent:
-  model: "router/oc/deepseek-v4-flash-free"
+  model: 'router/oc/deepseek-v4-flash-free'
   max_turns: 35
 ```
 
@@ -131,11 +164,11 @@ coddy http -P 12345
 
 ## Типовые схемы развёртывания
 
-| Схема | Где роутер | Где агент (Coddy) | Когда нужна |
-|---|---|---|---|
-| A. Всё на одном сервере | VPS | VPS | автономный круглосуточный агент |
-| B. Роутер на сервере, агент на ПК | VPS | ваш ПК | быстрый старт, «пощупать» |
-| C. Всё на ПК | ваш ПК | ваш ПК | разработка |
+| Схема                             | Где роутер | Где агент (Coddy) | Когда нужна                     |
+| --------------------------------- | ---------- | ----------------- | ------------------------------- |
+| A. Всё на одном сервере           | VPS        | VPS               | автономный круглосуточный агент |
+| B. Роутер на сервере, агент на ПК | VPS        | ваш ПК            | быстрый старт, «пощупать»       |
+| C. Всё на ПК                      | ваш ПК     | ваш ПК            | разработка                      |
 
 Телефон в любой схеме — только клиент (встроенный веб-UI Coddy на :12345).
 
@@ -166,12 +199,12 @@ cp .env.example .env      # заполнить секреты (JWT_SECRET, API_K
 
 Сервисы (`scripts/deploy/docker-compose.yml`):
 
-| Сервис | Образ | Порт | Назначение |
-|---|---|---|---|
-| `router` | `diegosouzapw/omniroute:latest` | 20128 | LLM-роутер (бесплатные алиасы, OAuth-автоподключение) |
-| `redis` | `redis:8.6.5-alpine` | — | rate-limiter роутера |
-| `agent` | `ghcr.io/coddy-project/coddy-agent:latest` | 12345 | код-агент (ReAct+MCP, встроенный веб-UI) |
-| `ui` | `nginx:alpine` | 3000 | веб-интерфейс (опционально) |
+| Сервис   | Образ                                      | Порт  | Назначение                                            |
+| -------- | ------------------------------------------ | ----- | ----------------------------------------------------- |
+| `router` | `diegosouzapw/omniroute:latest`            | 20128 | LLM-роутер (бесплатные алиасы, OAuth-автоподключение) |
+| `redis`  | `redis:8.6.5-alpine`                       | —     | rate-limiter роутера                                  |
+| `agent`  | `ghcr.io/coddy-project/coddy-agent:latest` | 12345 | код-агент (ReAct+MCP, встроенный веб-UI)              |
+| `ui`     | `nginx:alpine`                             | 3000  | веб-интерфейс (опционально)                           |
 
 `deploy.sh` сам проверяет: ответ роутера `/v1/models`, работу бесплатной non-streaming модели, веб-UI код-агента и веб-интерфейс.
 
