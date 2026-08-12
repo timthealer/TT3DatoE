@@ -2,11 +2,11 @@
   "clients": [
     {
       "chat_id": 5255559756,
-      "slug": "client-5255559756",
+      "slug": "ooo-pizdato",
       "name": "Толян",
       "first_name": "Толян",
-      "company": "",
-      "status": "need_company",
+      "company": "Ооо \"пиздато\"",
+      "status": "interview",
       "created": "2026-08-12"
     }
   ]
