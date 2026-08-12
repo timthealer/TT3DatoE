@@ -3,6 +3,10 @@ Temp/
 
 # Node
 node_modules/
+dist/
+build/
+coverage/
+.pnpm-store/
 
 # Environment / secrets
 .env
@@ -15,3 +19,12 @@ node_modules/
 
 # Logs (transient files ignored)
 *.log
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Lockfiles of local-only tools
+pnpm-debug.log*
